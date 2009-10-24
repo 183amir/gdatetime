@@ -1565,7 +1565,7 @@ g_date_time_to_timeval (GDateTime *datetime,
   tv->tv_sec = 0;
   tv->tv_usec = 0;
 
-  if (datetime->period == 0)
+  if (G_LIKELY (datetime->period == 0))
     {
       tv->tv_sec = g_date_time_to_time_t (datetime);
       tv->tv_usec = datetime->usec % USEC_PER_SECOND;
