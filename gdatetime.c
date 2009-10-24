@@ -116,8 +116,8 @@ struct _GTimeZone
   gint    dst_gmtoff;
 
   struct {
-    gshort julian;
-    gshort seconds;
+    guint julian;
+    guint seconds;
   } dst_begin, dst_end;
 };
 
@@ -245,7 +245,7 @@ g_time_zone_new_from_year (gint year)
                       if (is_daylight)
                         {
                           tz->std_name = g_strdup (tzone);
-                          TO_JULIAN (tt1.tm_year, tt1.tm_mon + 1, tt1.tm_mday, &julian);
+                          TO_JULIAN (tt1.tm_year + 1900, tt1.tm_mon + 1, tt1.tm_mday, &julian);
                           tz->dst_end.julian = julian;
                           tz->dst_end.seconds = ((tt1.tm_hour * 3600) +
                                                  (tt1.tm_min * 60) +
@@ -255,7 +255,7 @@ g_time_zone_new_from_year (gint year)
                       else
                         {
                           tz->dst_name = g_strdup (tzone);
-                          TO_JULIAN (tt1.tm_year, tt1.tm_mon + 1, tt1.tm_mday, &julian);
+                          TO_JULIAN (tt1.tm_year + 1900, tt1.tm_mon + 1, tt1.tm_mday, &julian);
                           tz->dst_begin.julian = julian;
                           tz->dst_begin.seconds = ((tt1.tm_hour * 60 * 60) +
                                                    (tt1.tm_min * 60) +
@@ -403,9 +403,7 @@ g_date_time_add (GDateTime *datetime,
   g_return_val_if_fail (timespan != NULL, NULL);
 
   dt = g_date_time_copy (datetime);
-
-  /* TODO: Add julians by order of days, etc */
-  g_warn_if_reached ();
+  ADD_USEC (dt, *timespan);
 
   return dt;
 }
@@ -779,8 +777,7 @@ g_date_time_copy (GDateTime *datetime)
   copied->period = datetime->period;
   copied->julian = datetime->julian;
   copied->usec = datetime->usec;
-
-  /* TODO: Copy GTimeZone information */
+  copied->tz = datetime->tz;
 
   return copied;
 }
@@ -1122,7 +1119,7 @@ g_date_time_get_utc_offset (GDateTime *datetime,
         offset = datetime->tz->std_gmtoff;
     }
 
-  *timespan = offset * USEC_PER_SECOND;
+  *timespan = (gint64)offset * USEC_PER_SECOND;
 }
 
 /**
@@ -1245,8 +1242,8 @@ g_date_time_is_daylight_savings (GDateTime *datetime)
   if (!datetime->tz)
     return FALSE;
 
-  begin = (datetime->tz->year * 365.25) + datetime->tz->dst_begin.julian;
-  end = (datetime->tz->year * 365.25) + datetime->tz->dst_end.julian;
+  begin = datetime->tz->dst_begin.julian;
+  end = datetime->tz->dst_end.julian;
 
   if (datetime->julian >= begin && datetime->julian <= end)
     {
@@ -1259,6 +1256,10 @@ g_date_time_is_daylight_savings (GDateTime *datetime)
           (datetime->tz->dst_end.seconds * USEC_PER_SECOND))
         return TRUE;
     }
+
+  g_debug ("Begin Julian %d", datetime->tz->dst_begin.julian);
+  g_debug ("Julian Year=%d (Julian=%d, Begin=%d End=%d)", datetime->tz->year, datetime->julian, begin, end);
+  g_debug ("NOT DST (%s : %s)", datetime->tz->std_name, datetime->tz->dst_name);
 
   return FALSE;
 }
@@ -1502,9 +1503,30 @@ g_date_time_ref (GDateTime *datetime)
 GDateTime*
 g_date_time_to_local (GDateTime *datetime)
 {
-  /* TODO: Convert to local time using current timezone infor for year */
-  g_warn_if_reached ();
-  return NULL;
+  GDateTime *dt;
+  gint       offset,
+             year;
+  gint64     usec;
+
+  g_return_val_if_fail (datetime != NULL, NULL);
+
+  dt = g_date_time_copy (datetime);
+
+  if (!dt->tz)
+    {
+      year = g_date_time_get_year (dt);
+      dt->tz = g_time_zone_new_from_year (year);
+
+      if (g_date_time_is_daylight_savings (dt))
+        offset = dt->tz->std_gmtoff + dt->tz->dst_gmtoff;
+      else
+        offset =  dt->tz->std_gmtoff;
+
+      usec = offset * USEC_PER_SECOND;
+      ADD_USEC (dt, usec);
+    }
+
+  return dt;
 }
 
 /**
@@ -1588,9 +1610,17 @@ g_date_time_to_timeval (GDateTime *datetime,
 GDateTime*
 g_date_time_to_utc (GDateTime *datetime)
 {
-  /* TODO: Convert to UTC */
-  g_warn_if_reached ();
-  return NULL;
+  GDateTime *dt;
+  GTimeSpan  ts;
+
+  g_return_val_if_fail (datetime != NULL, NULL);
+
+  g_date_time_get_utc_offset (datetime, &ts);
+  ts = -ts;
+  dt = g_date_time_add (datetime, &ts);
+  dt->tz = NULL;
+
+  return dt;
 }
 
 /**
@@ -1647,16 +1677,13 @@ g_date_time_unref (GDateTime *datetime)
 GDateTime*
 g_date_time_utc_now (void)
 {
-  GDateTime *datetime,
+  GDateTime *utc,
             *now;
-  GTimeSpan  offset;
 
   now = g_date_time_now ();
-  g_date_time_get_utc_offset (now, &offset);
-  datetime = g_date_time_add (now, &offset);
-  datetime->tz = NULL;
+  utc = g_date_time_to_utc (now);
   g_date_time_unref (now);
 
-  return datetime;
+  return utc;
 }
 

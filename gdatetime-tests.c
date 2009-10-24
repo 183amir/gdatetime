@@ -680,14 +680,13 @@ test_g_date_time_utc_now (void)
 
   t = time (NULL);
   gmtime_r (&t, &tm);
-  dt = g_date_time_new_from_time_t (t);
-  g_assert_cmpint (1900 + tm.tm_year, ==, g_date_time_get_year (dt));
+  dt = g_date_time_utc_now ();
+  g_assert_cmpint (tm.tm_year + 1900, ==, g_date_time_get_year (dt));
   g_assert_cmpint (tm.tm_mon + 1, ==, g_date_time_get_month (dt));
   g_assert_cmpint (tm.tm_mday, ==, g_date_time_get_day_of_month (dt));
   g_assert_cmpint (tm.tm_hour, ==, g_date_time_get_hour (dt));
   g_assert_cmpint (tm.tm_min, ==, g_date_time_get_minute (dt));
   g_assert_cmpint (tm.tm_sec, ==, g_date_time_get_second (dt));
-  g_date_time_unref (dt);
 }
 
 static void
@@ -695,11 +694,38 @@ test_g_date_time_get_utc_offset (void)
 {
   GDateTime *dt;
   GTimeSpan  ts;
+  struct tm  tm;
+  time_t     t;
 
-  dt = g_date_time_new_from_date (2009, 10, 22);
+  t = time (NULL);
+  memset (&tm, 0, sizeof (tm));
+  localtime_r (&t, &tm);
+
+  dt = g_date_time_now ();
   g_date_time_get_utc_offset (dt, &ts);
-  /* TODO: Fix */
-  g_assert_cmpint (ts, ==, -8 * G_TIME_SPAN_HOUR);
+  g_assert_cmpint (ts, ==, tm.tm_gmtoff * G_TIME_SPAN_SECOND);
+  g_date_time_unref (dt);
+}
+
+static void
+test_g_date_time_to_local (void)
+{
+  GDateTime *utc, *now, *dt;
+
+  utc = g_date_time_utc_now ();
+  now = g_date_time_now ();
+  dt = g_date_time_to_local (utc);
+
+  g_assert_cmpint (g_date_time_get_year (now), ==, g_date_time_get_year (dt));
+  g_assert_cmpint (g_date_time_get_month (now), ==, g_date_time_get_month (dt));
+  g_assert_cmpint (g_date_time_get_day_of_month (now), ==, g_date_time_get_day_of_month (dt));
+  g_assert_cmpint (g_date_time_get_hour (now), ==, g_date_time_get_hour (dt));
+  g_assert_cmpint (g_date_time_get_minute (now), ==, g_date_time_get_minute (dt));
+  g_assert_cmpint (g_date_time_get_second (now), ==, g_date_time_get_second (dt));
+  g_assert_cmpint (g_date_time_get_millisecond (now), ==, g_date_time_get_millisecond (dt));
+
+  g_date_time_unref (now);
+  g_date_time_unref (utc);
   g_date_time_unref (dt);
 }
 
@@ -787,10 +813,8 @@ main (gint   argc,
   */
   g_test_add_func ("/GDateTime/ref",
                    test_g_date_time_ref);
-  /*
   g_test_add_func ("/GDateTime/to_local",
                    test_g_date_time_to_local);
-  */
   g_test_add_func ("/GDateTime/to_time_t",
                    test_g_date_time_to_time_t);
   /*
