@@ -1520,25 +1520,29 @@ g_date_time_to_local (GDateTime *datetime)
 time_t
 g_date_time_to_time_t (GDateTime *datetime)
 {
+  gint      year,
+	    month,
+	    day;
   struct tm tm;
 
   g_return_val_if_fail (datetime != NULL, (time_t)0);
   g_return_val_if_fail (datetime->period == 0, (time_t)0);
 
+  g_date_time_get_dmy (datetime, &day, &month, &year);
+
+  if (year < 1970)
+    return (time_t)0;
+  else if (year > 2037)
+    return (time_t)G_MAXINT;
+
   memset (&tm, 0, sizeof (tm));
 
-  tm.tm_year = g_date_time_get_year (datetime) - 1900;
-  tm.tm_mon = g_date_time_get_month (datetime) - 1;
-  tm.tm_mday = g_date_time_get_day_of_month (datetime);
+  tm.tm_year = year - 1900;
+  tm.tm_mon = month - 1;
+  tm.tm_mday = day;
   tm.tm_hour = g_date_time_get_hour (datetime);
   tm.tm_min = g_date_time_get_minute (datetime);
   tm.tm_sec = g_date_time_get_second (datetime);
-
-  if (datetime->tz)
-    {
-      /* TODO: adjust based on offset */
-      g_warn_if_reached ();
-    }
 
   return mktime (&tm);
 }

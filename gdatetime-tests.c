@@ -698,6 +698,7 @@ test_g_date_time_get_utc_offset (void)
 
   dt = g_date_time_new_from_date (2009, 10, 22);
   g_date_time_get_utc_offset (dt, &ts);
+  /* TODO: Fix */
   g_assert_cmpint (ts, ==, -8 * G_TIME_SPAN_HOUR);
   g_date_time_unref (dt);
 }
