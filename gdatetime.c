@@ -1543,6 +1543,7 @@ g_date_time_to_time_t (GDateTime *datetime)
   tm.tm_hour = g_date_time_get_hour (datetime);
   tm.tm_min = g_date_time_get_minute (datetime);
   tm.tm_sec = g_date_time_get_second (datetime);
+  tm.tm_isdst = -1;
 
   return mktime (&tm);
 }
