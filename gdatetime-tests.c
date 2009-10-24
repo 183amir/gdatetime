@@ -746,6 +746,25 @@ test_g_date_time_to_local (void)
   g_date_time_unref (dt);
 }
 
+static void
+test_g_date_time_to_utc (void)
+{
+  GDateTime *dt, *dt2;
+  time_t     t;
+  struct tm  tm;
+
+  t = time (NULL);
+  gmtime_r (&t, &tm);
+  dt2 = g_date_time_now ();
+  dt = g_date_time_to_utc (dt2);
+  g_assert_cmpint (tm.tm_year + 1900, ==, g_date_time_get_year (dt));
+  g_assert_cmpint (tm.tm_mon + 1, ==, g_date_time_get_month (dt));
+  g_assert_cmpint (tm.tm_mday, ==, g_date_time_get_day_of_month (dt));
+  g_assert_cmpint (tm.tm_hour, ==, g_date_time_get_hour (dt));
+  g_assert_cmpint (tm.tm_min, ==, g_date_time_get_minute (dt));
+  g_assert_cmpint (tm.tm_sec, ==, g_date_time_get_second (dt));
+}
+
 gint
 main (gint   argc,
       gchar *argv[])
@@ -836,10 +855,8 @@ main (gint   argc,
                    test_g_date_time_to_time_t);
   g_test_add_func ("/GDateTime/to_timeval",
                    test_g_date_time_to_timeval);
-  /*
   g_test_add_func ("/GDateTime/to_utc",
                    test_g_date_time_to_utc);
-  */
   g_test_add_func ("/GDateTime/today",
                    test_g_date_time_today);
   g_test_add_func ("/GDateTime/unref",
