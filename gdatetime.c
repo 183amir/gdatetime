@@ -1520,10 +1520,10 @@ g_date_time_to_local (GDateTime *datetime)
 time_t
 g_date_time_to_time_t (GDateTime *datetime)
 {
-  gint      year,
-	    month,
-	    day;
   struct tm tm;
+  gint      year,
+            month,
+            day;
 
   g_return_val_if_fail (datetime != NULL, (time_t)0);
   g_return_val_if_fail (datetime->period == 0, (time_t)0);
