@@ -116,8 +116,8 @@ struct _GTimeZone
   gint    dst_gmtoff;
 
   struct {
-    gint  julian;
-    gint  seconds;
+    gshort julian;
+    gshort seconds;
   } dst_begin, dst_end;
 };
 
@@ -199,6 +199,7 @@ g_time_zone_new_from_year (gint year)
       if (!(tz = g_hash_table_lookup (hash, &key)))
         {
           tz = g_slice_new0 (GTimeZone);
+          tz->year = year;
           mkey = g_malloc (sizeof (gint64));
           *mkey = key;
 
@@ -246,7 +247,7 @@ g_time_zone_new_from_year (gint year)
                           tz->std_name = g_strdup (tzone);
                           TO_JULIAN (tt1.tm_year, tt1.tm_mon + 1, tt1.tm_mday, &julian);
                           tz->dst_end.julian = julian;
-                          tz->dst_end.seconds = ((tt1.tm_hour * 60 * 60) +
+                          tz->dst_end.seconds = ((tt1.tm_hour * 3600) +
                                                  (tt1.tm_min * 60) +
                                                  (tt1.tm_sec));
                           goto finished;
@@ -265,9 +266,6 @@ g_time_zone_new_from_year (gint year)
                       /* This is only set once when we enter daylight saving. */
                       tz->std_gmtoff = (gint64)gmtoff;
                       tz->dst_gmtoff = (gint64)(gmt_offset (&tt, t) - gmtoff);
-
-                      g_debug ("StdOffset: %d", tz->std_gmtoff);
-                      g_debug ("DstOffset: %d", tz->dst_gmtoff);
 
                       gmtoff = gmt_offset (&tt, t);
                     }
@@ -1111,18 +1109,20 @@ void
 g_date_time_get_utc_offset (GDateTime *datetime,
                             GTimeSpan *timespan)
 {
+  gint offset = 0;
+
   g_return_if_fail (datetime != NULL);
   g_return_if_fail (timespan != NULL);
 
   if (datetime->tz)
     {
       if (g_date_time_is_daylight_savings (datetime))
-        *timespan = datetime->tz->dst_gmtoff;
+        offset = datetime->tz->std_gmtoff + datetime->tz->dst_gmtoff;
       else
-        *timespan = datetime->tz->std_gmtoff;
+        offset = datetime->tz->std_gmtoff;
     }
-  else
-    *timespan = 0;
+
+  *timespan = offset * USEC_PER_SECOND;
 }
 
 /**
@@ -1237,13 +1237,28 @@ g_date_time_is_leap_year (GDateTime *datetime)
 gboolean
 g_date_time_is_daylight_savings (GDateTime *datetime)
 {
+  gint begin,
+       end;
+
   g_return_val_if_fail (datetime != NULL, FALSE);
 
-  // tmp
-  return TRUE;
+  if (!datetime->tz)
+    return FALSE;
 
-  /* TODO: Get GTimeZone to determine daylight savings range */
-  g_warn_if_reached ();
+  begin = (datetime->tz->year * 365.25) + datetime->tz->dst_begin.julian;
+  end = (datetime->tz->year * 365.25) + datetime->tz->dst_end.julian;
+
+  if (datetime->julian >= begin && datetime->julian <= end)
+    {
+      if (datetime->julian != begin && datetime->julian != end)
+        return TRUE;
+      else if (datetime->julian == begin && datetime->usec >
+          (datetime->tz->dst_begin.seconds * USEC_PER_SECOND))
+        return TRUE;
+      else if (datetime->julian == end && datetime->usec <
+          (datetime->tz->dst_end.seconds * USEC_PER_SECOND))
+        return TRUE;
+    }
 
   return FALSE;
 }
