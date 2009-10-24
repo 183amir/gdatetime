@@ -708,6 +708,23 @@ test_g_date_time_get_utc_offset (void)
 }
 
 static void
+test_g_date_time_to_timeval (void)
+{
+  GTimeVal tv1, tv2;
+  GDateTime *dt;
+
+  memset (&tv1, 0, sizeof (tv1));
+  memset (&tv2, 0, sizeof (tv2));
+
+  g_get_current_time (&tv1);
+  dt = g_date_time_new_from_timeval (&tv1);
+  g_date_time_to_timeval (dt, &tv2);
+  g_assert_cmpint (tv1.tv_sec, ==, tv2.tv_sec);
+  g_assert_cmpint (tv1.tv_usec, ==, tv2.tv_usec);
+  g_date_time_unref (dt);
+}
+
+static void
 test_g_date_time_to_local (void)
 {
   GDateTime *utc, *now, *dt;
@@ -817,9 +834,9 @@ main (gint   argc,
                    test_g_date_time_to_local);
   g_test_add_func ("/GDateTime/to_time_t",
                    test_g_date_time_to_time_t);
-  /*
   g_test_add_func ("/GDateTime/to_timeval",
                    test_g_date_time_to_timeval);
+  /*
   g_test_add_func ("/GDateTime/to_utc",
                    test_g_date_time_to_utc);
   */
