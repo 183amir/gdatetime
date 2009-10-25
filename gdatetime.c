@@ -50,8 +50,12 @@
     d->julian += n;                                                         \
 } G_STMT_END
 #define ADD_USEC(d,n) G_STMT_START {                                        \
-  gint64 __usec = (d)->usec + (n);                                          \
-  gint __days = __usec / USEC_PER_DAY;                                      \
+  gint64 __usec;                                                            \
+  gint   __days;                                                            \
+  __usec = (d)->usec + (n);                                                 \
+  __days = __usec / USEC_PER_DAY;                                           \
+  if (__usec < 0)                                                           \
+    __days -= 1;                                                            \
   if (__days != 0)                                                          \
     ADD_DAYS ((d), __days);                                                 \
   if (__usec < 0)                                                           \
