@@ -1362,10 +1362,6 @@ g_date_time_is_daylight_savings (GDateTime *datetime)
         return TRUE;
     }
 
-  g_debug ("Begin Julian %d", datetime->tz->dst_begin.julian);
-  g_debug ("Julian Year=%d (Julian=%d, Begin=%d End=%d)", datetime->tz->year, datetime->julian, begin, end);
-  g_debug ("NOT DST (%s : %s)", datetime->tz->std_name, datetime->tz->dst_name);
-
   return FALSE;
 }
 
