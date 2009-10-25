@@ -52,6 +52,7 @@ gboolean      g_date_time_equal                  (gconstpointer   dt1,
 gchar *       g_date_time_format_for_display     (GDateTime      *datetime);
 gint          g_date_time_get_day_of_week        (GDateTime      *datetime);
 gint          g_date_time_get_day_of_month       (GDateTime      *datetime);
+gint          g_date_time_get_day_of_year        (GDateTime      *datetime);
 gint          g_date_time_get_hour               (GDateTime      *datetime);
 void          g_date_time_get_julian             (GDateTime      *datetime,
                                                   gint           *period,
