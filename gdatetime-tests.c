@@ -805,6 +805,30 @@ test_g_date_time_get_day_of_year (void)
   TEST_DAY_OF_YEAR (2008, 8, 16, 229);
 }
 
+static void
+test_g_date_time_printf (void)
+{
+#define TEST_PRINTF(f,o) G_STMT_START { \
+  GDateTime *dt = g_date_time_new_from_date (2009, 10, 24); \
+  g_assert_cmpstr (g_date_time_printf (dt, (f)), ==, (o)); \
+  g_date_time_unref (dt); \
+} G_STMT_END
+
+  TEST_PRINTF ("%y", "09");
+  TEST_PRINTF ("%Y", "2009");
+  TEST_PRINTF ("%m", "10");
+  TEST_PRINTF ("%d", "24");
+  TEST_PRINTF ("%H", "00");
+  TEST_PRINTF ("%M", "00");
+  TEST_PRINTF ("%S", "00");
+  TEST_PRINTF ("%a", "Sat");
+  TEST_PRINTF ("%A", "Saturday");
+  TEST_PRINTF ("%b", "Oct");
+  TEST_PRINTF ("%B", "October");
+  //TEST_PRINTF ("%e", "24"); // fixme
+  TEST_PRINTF ("%F", "2009-10-24");
+}
+
 gint
 main (gint   argc,
       gchar *argv[])
@@ -884,9 +908,9 @@ main (gint   argc,
                    test_g_date_time_parse);
   g_test_add_func ("/GDateTime/parse_with_format",
                    test_g_date_time_parse_with_format);
+  */
   g_test_add_func ("/GDateTime/printf",
                    test_g_date_time_printf);
-  */
   g_test_add_func ("/GDateTime/ref",
                    test_g_date_time_ref);
   g_test_add_func ("/GDateTime/to_local",
