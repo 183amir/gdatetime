@@ -1293,14 +1293,14 @@ g_date_time_format_for_display (GDateTime *datetime)
   if (!datetime->period)
     {
       if (julian == datetime->julian)
-        return g_date_time_printf (datetime, _("Today, %l:%M %p"));
+        return g_date_time_printf (datetime, Q_("GDateTime|Today, %l:%M %p"));
       else if (julian == (datetime->julian + 1))
-        return g_date_time_printf (datetime, _("Yesterday, %l:%M %p"));
+        return g_date_time_printf (datetime, Q_("GDateTime|Yesterday, %l:%M %p"));
       else if (julian == (datetime->julian - 1))
-        return g_date_time_printf (datetime, _("Tomorrow, %l:%M %p"));
+        return g_date_time_printf (datetime, Q_("GDateTime|Tomorrow, %l:%M %p"));
     }
 
-  return g_date_time_printf (datetime, "%b %d, %Y, %l:%M %p");
+  return g_date_time_printf (datetime, Q_("GDateTime|%b %d, %Y, %l:%M %p"));
 }
 
 /**
