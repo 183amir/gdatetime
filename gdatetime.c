@@ -26,6 +26,28 @@
 
 #include "gdatetime.h"
 
+/**
+ * SECTION:g-date-time
+ * @title: GDateTime
+ * @short_description: A Date and Time structure
+ *
+ * #GDateTime is a structure that combines a date and time into a single
+ * structure.  It provides many conversion and methods to manipulate dates
+ * and times.  Time precision is provided down to microseconds.
+ *
+ * #GDateTime is reference counted and should be freed using
+ * g_date_time_unref().
+ *
+ * Internally, #GDateTime uses the Julian Day Number since the
+ * initial Julian Period (-4712 BC).  However, the public API uses the
+ * internationally accepted Gregorian Calendar.
+ *
+ * Conversion to other calendars can be done using the #GObject based
+ * #GCalendar.
+ *
+ * Since: 2.24
+ */
+
 #define GREGORIAN_LEAP(y)    (((y%4)==0)&&(!(((y%100)==0)&&((y%400)!=0))))
 #define JULIAN_YEAR(d)       (d->julian/365.25)
 #define DAYS_PER_PERIOD      (2914695)
@@ -186,22 +208,6 @@ struct _GTimeZone
   } dst_begin, dst_end;
 };
 
-static gint
-gmt_offset (struct tm *tm,
-            time_t     t)
-{
-#if defined (HAVE_TM_GMTOFF)
-  return tm->tm_gmtoff;
-#else
-  struct tm g;
-  time_t t2;
-  g = *gmtime (&t);
-  g.tm_isdst = tm->tm_isdst;
-  t2 = mktime (&g);
-  return (int)difftime (t, t2);
-#endif
-}
-
 static GHashTable*
 g_time_zone_get_cache (void)
 {
@@ -221,7 +227,7 @@ g_time_zone_get_cache (void)
 /*
  * The built in timezone database rather sucks.  Well, to be more accurate,
  * the way of getting at it from libc sucks.  It isn't very useful for times
- * outside of the range of 1970-2038.  Therefore the following method does
+ * outside of the range of 1970-2038.  Therefore the following methods do
  * not provide accurate DST information for years not in that range.
  *
  * This method is based upon Mono's implementation which can be found at
@@ -236,6 +242,22 @@ g_time_zone_get_cache (void)
  * Copyright 2001-2003 Ximian, Inc (http://www.ximian.com)
  * Copyright 2004-2009 Novell, Inc (http://www.novell.com)
  */
+static gint
+gmt_offset (struct tm *tm,
+            time_t     t)
+{
+#if defined (HAVE_TM_GMTOFF)
+  return tm->tm_gmtoff;
+#else
+  struct tm g;
+  time_t t2;
+  g = *gmtime (&t);
+  g.tm_isdst = tm->tm_isdst;
+  t2 = mktime (&g);
+  return (int)difftime (t, t2);
+#endif
+}
+
 static GTimeZone*
 g_time_zone_new_from_year (gint year)
 {
