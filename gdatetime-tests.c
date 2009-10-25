@@ -765,6 +765,46 @@ test_g_date_time_to_utc (void)
   g_assert_cmpint (tm.tm_sec, ==, g_date_time_get_second (dt));
 }
 
+#define g_assert_str_has_prefix(s,p) g_assert(g_str_has_prefix(s,p))
+
+static void
+test_g_date_time_format_for_display (void)
+{
+  GDateTime *dt, *dt1;
+
+  dt = g_date_time_now ();
+  g_assert_str_has_prefix (g_date_time_format_for_display (dt), "Today");
+
+  dt1 = g_date_time_add_days (dt, 1);
+  g_assert_str_has_prefix (g_date_time_format_for_display (dt1), "Tomorrow");
+  g_date_time_unref (dt1);
+
+  dt1 = g_date_time_add_days (dt, -1);
+  g_assert_str_has_prefix (g_date_time_format_for_display (dt1), "Yesterday");
+  g_date_time_unref (dt1);
+
+  dt1 = g_date_time_new_from_date (1400, 1, 1);
+  g_assert_str_has_prefix (g_date_time_format_for_display (dt1), "Jan 01, 1400, 12:00 AM");
+  g_date_time_unref (dt1);
+
+  g_date_time_unref (dt);
+}
+
+static void
+test_g_date_time_get_day_of_year (void)
+{
+#define TEST_DAY_OF_YEAR(y,m,d,o) G_STMT_START { \
+  GDateTime *dt = g_date_time_new_from_date ((y),(m),(d)); \
+  g_assert_cmpint ((o), ==, g_date_time_get_day_of_year (dt)); \
+  g_date_time_unref (dt); \
+} G_STMT_END
+
+  TEST_DAY_OF_YEAR (2009, 1, 1, 1);
+  TEST_DAY_OF_YEAR (2009, 2, 1, 32);
+  TEST_DAY_OF_YEAR (2009, 8, 16, 228);
+  TEST_DAY_OF_YEAR (2008, 8, 16, 229);
+}
+
 gint
 main (gint   argc,
       gchar *argv[])
@@ -799,14 +839,14 @@ main (gint   argc,
                    test_g_date_time_diff);
   g_test_add_func ("/GDateTime/equal",
                    test_g_date_time_equal);
-  /*
   g_test_add_func ("/GDateTime/format_for_display",
                    test_g_date_time_format_for_display);
-  */
   g_test_add_func ("/GDateTime/get_day_of_week",
                    test_g_date_time_get_day_of_week);
   g_test_add_func ("/GDateTime/get_day_of_month",
                    test_g_date_time_get_day_of_month);
+  g_test_add_func ("/GDateTime/get_day_of_year",
+                   test_g_date_time_get_day_of_year);
   g_test_add_func ("/GDateTime/get_hour",
                    test_g_date_time_get_hour);
   g_test_add_func ("/GDateTime/get_julian",
