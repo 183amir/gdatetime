@@ -809,24 +809,63 @@ static void
 test_g_date_time_printf (void)
 {
 #define TEST_PRINTF(f,o) G_STMT_START { \
-  GDateTime *dt = g_date_time_new_from_date (2009, 10, 24); \
+GDateTime *dt = g_date_time_new_from_date (2009, 10, 24); \
+g_assert_cmpstr (g_date_time_printf (dt, (f)), ==, (o)); \
+g_date_time_unref (dt); \
+} G_STMT_END
+#define TEST_PRINTF_DATE(y,m,d,f,o) G_STMT_START { \
+  GDateTime *dt = g_date_time_new_from_date ((y), (m), (d)); \
   g_assert_cmpstr (g_date_time_printf (dt, (f)), ==, (o)); \
   g_date_time_unref (dt); \
 } G_STMT_END
+#define TEST_PRINTF_TIME(h,m,s,f,o) G_STMT_START { \
+GDateTime *dt = g_date_time_new_full (2009, 10, 24, (h), (m), (s)); \
+g_assert_cmpstr (g_date_time_printf (dt, (f)), ==, (o)); \
+g_date_time_unref (dt); \
+} G_STMT_END
 
-  TEST_PRINTF ("%y", "09");
-  TEST_PRINTF ("%Y", "2009");
-  TEST_PRINTF ("%m", "10");
-  TEST_PRINTF ("%d", "24");
-  TEST_PRINTF ("%H", "00");
-  TEST_PRINTF ("%M", "00");
-  TEST_PRINTF ("%S", "00");
   TEST_PRINTF ("%a", "Sat");
   TEST_PRINTF ("%A", "Saturday");
   TEST_PRINTF ("%b", "Oct");
   TEST_PRINTF ("%B", "October");
-  //TEST_PRINTF ("%e", "24"); // fixme
-  TEST_PRINTF ("%F", "2009-10-24");
+  TEST_PRINTF ("%d", "24");
+  TEST_PRINTF_DATE (2009, 1, 1, "%d", "01");
+  TEST_PRINTF ("%e", "24"); // fixme
+  TEST_PRINTF ("%h", "Oct");
+  TEST_PRINTF ("%H", "00");
+  TEST_PRINTF_TIME (15, 0, 0, "%H", "15");
+  TEST_PRINTF ("%I", "12");
+  TEST_PRINTF_TIME (15, 0, 0, "%I", "03");
+  TEST_PRINTF ("%j", "297");
+  TEST_PRINTF ("%k", " 0");
+  TEST_PRINTF_TIME (13, 13, 13, "%k", "13");
+  TEST_PRINTF ("%l", "12");
+  TEST_PRINTF_TIME (13, 13, 13, "%l", " 1");
+  TEST_PRINTF_TIME (10, 13, 13, "%l", "10");
+  TEST_PRINTF ("%m", "10");
+  TEST_PRINTF ("%M", "00");
+  TEST_PRINTF ("%N", "0");
+  TEST_PRINTF ("%p", "AM");
+  TEST_PRINTF_TIME (13, 13, 13, "%p", "PM");
+  TEST_PRINTF ("%P", "am");
+  TEST_PRINTF_TIME (13, 13, 13, "%P", "pm");
+  TEST_PRINTF ("%r", "12:00:00 AM");
+  TEST_PRINTF_TIME (13, 13, 13, "%r", "01:13:13 PM");
+  TEST_PRINTF ("%R", "00:00");
+  TEST_PRINTF_TIME (13, 13, 31, "%R", "13:13");
+  TEST_PRINTF ("%s", "1256367600");
+  TEST_PRINTF ("%S", "00");
+  TEST_PRINTF ("%t", "	");
+  TEST_PRINTF ("%W", "42");
+  TEST_PRINTF ("%u", "6");
+  TEST_PRINTF ("%x", "10/24/09");
+  TEST_PRINTF ("%X", "00:00:00");
+  TEST_PRINTF_TIME (13, 14, 15, "%X", "13:14:15");
+  TEST_PRINTF ("%y", "09");
+  TEST_PRINTF ("%Y", "2009");
+  TEST_PRINTF ("%%", "%");
+  TEST_PRINTF ("%", "");
+  TEST_PRINTF ("%9", NULL);
 }
 
 gint

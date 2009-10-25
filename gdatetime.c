@@ -1661,7 +1661,7 @@ g_date_time_printf (GDateTime   *datetime,
                                       g_date_time_get_day_of_month (datetime));
               break;
             case 'e':
-              g_string_append_printf (outstr, "% 2d",
+              g_string_append_printf (outstr, "%2d",
                                       g_date_time_get_day_of_month (datetime));
               break;
             case 'F':
@@ -1682,21 +1682,21 @@ g_date_time_printf (GDateTime   *datetime,
                 g_string_append (outstr, "12");
               else
                 g_string_append_printf (outstr, "%02d",
-                                        g_date_time_get_hour (datetime));
+                                        g_date_time_get_hour (datetime) % 12);
               break;
             case 'j':
               g_string_append_printf (outstr, "%03d",
                                       g_date_time_get_day_of_year (datetime));
               break;
             case 'k':
-              g_string_append_printf (outstr, "% 2d",
+              g_string_append_printf (outstr, "%2d",
                                       g_date_time_get_hour (datetime));
               break;
             case 'l':
               if (g_date_time_get_hour (datetime) == 0)
                 g_string_append (outstr, "12");
               else
-                g_string_append_printf (outstr, "% 2d",
+                g_string_append_printf (outstr, "%2d",
                                         g_date_time_get_hour (datetime) % 12);
               break;
             case 'm':
@@ -1717,13 +1717,17 @@ g_date_time_printf (GDateTime   *datetime,
             case 'P':
               g_string_append (outstr, GET_AMPM (datetime, TRUE));
               break;
-            case 'r':
+            case 'r': {
+              gint hour = g_date_time_get_hour (datetime) % 12;
+              if (hour == 0)
+                hour = 12;
               g_string_append_printf (outstr, "%02d:%02d:%02d %s",
-                                      g_date_time_get_hour (datetime),
+                                      hour,
                                       g_date_time_get_minute (datetime),
                                       g_date_time_get_second (datetime),
                                       GET_AMPM (datetime, FALSE));
               break;
+            }
             case 'R':
               g_string_append_printf (outstr, "%02d:%02d",
                                       g_date_time_get_hour (datetime),
@@ -1741,7 +1745,7 @@ g_date_time_printf (GDateTime   *datetime,
               g_string_append_c (outstr, '\t');
               break;
             case 'u':
-              g_string_append_printf (outstr, "% 2d",
+              g_string_append_printf (outstr, "%d",
                                       g_date_time_get_day_of_week (datetime));
               break;
             case 'W':
