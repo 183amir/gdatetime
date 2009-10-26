@@ -746,7 +746,6 @@ test_GDateTime_to_local (void)
   g_assert_cmpint (g_date_time_get_hour (now), ==, g_date_time_get_hour (dt));
   g_assert_cmpint (g_date_time_get_minute (now), ==, g_date_time_get_minute (dt));
   g_assert_cmpint (g_date_time_get_second (now), ==, g_date_time_get_second (dt));
-  g_assert_cmpint (g_date_time_get_millisecond (now), ==, g_date_time_get_millisecond (dt));
 
   g_date_time_unref (now);
   g_date_time_unref (utc);
