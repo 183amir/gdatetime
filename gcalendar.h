@@ -53,6 +53,7 @@ struct _GCalendarClass
   gint (*get_year)         (GCalendar *calendar, GDateTime *datetime);
   gint (*get_month)        (GCalendar *calendar, GDateTime *datetime);
   gint (*get_day_of_month) (GCalendar *calendar, GDateTime *datetime);
+  gint (*get_day_of_week)  (GCalendar *calendar, GDateTime *datetime);
   gint (*get_day_of_year)  (GCalendar *calendar, GDateTime *datetime);
   gint (*get_hour)         (GCalendar *calendar, GDateTime *datetime);
   gint (*get_minute)       (GCalendar *calendar, GDateTime *datetime);
@@ -66,6 +67,8 @@ gint        g_calendar_get_year         (GCalendar *calendar,
 gint        g_calendar_get_month        (GCalendar *calendar,
                                          GDateTime *datetime);
 gint        g_calendar_get_day_of_month (GCalendar *calendar,
+                                         GDateTime *datetime);
+gint        g_calendar_get_day_of_week  (GCalendar *calendar,
                                          GDateTime *datetime);
 gint        g_calendar_get_day_of_year  (GCalendar *calendar,
                                          GDateTime *datetime);
