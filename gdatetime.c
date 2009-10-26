@@ -1563,16 +1563,16 @@ g_date_time_parse (const gchar *input)
  *
  * The following format specifiers are supported:
  *
- * %%d    The day ranging from 1 to 31.
- * %%H    The hour ranging from 1 to 23.
- * %%I    The hour ranging from 1 to 12. Best used with %%p or %%P.
- * %%m    The month ranging from 1 to 12.
- * %%M    The minute ranging from 1 to 59.
- * %%p    The AM/PM specifier.
- * %%P    The am/pm specifier.
- * %%S    The second ranging from 1 to 60.
- * %%t    A literal tab (\t).
- * %%y    The 2-decimal representation of the year.
+ * %%d  The day ranging from 1 to 31.
+ * %%H  The hour ranging from 1 to 23.
+ * %%I  The hour ranging from 1 to 12. Best used with %%p or %%P.
+ * %%m  The month ranging from 1 to 12.
+ * %%M  The minute ranging from 1 to 59.
+ * %%p  The AM/PM specifier.
+ * %%P  The am/pm specifier.
+ * %%S  The second ranging from 1 to 60.
+ * %%t  A literal tab (\t).
+ * %%y  The 2-decimal representation of the year.
  *
  * Return value: the newly created #GDateTime which should be freed with
  *   g_date_time_unref() or %NULL upon error.
