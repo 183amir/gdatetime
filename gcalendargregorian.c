@@ -91,20 +91,28 @@ g_calendar_gregorian_real_get_second (GCalendar *calendar,
   return g_date_time_get_second (datetime);
 }
 
+static gboolean
+g_calendar_gregorian_real_is_leap_year (GCalendar *calendar,
+                                        GDateTime *datetime)
+{
+  return g_date_time_is_leap_year (datetime);
+}
+
 static void
 g_calendar_gregorian_class_init (GCalendarGregorianClass *klass)
 {
   GCalendarClass *calendar_class;
 
-  calendar_class = G_CALENDAR_CLASS (klass);
-  calendar_class->get_year = g_calendar_gregorian_real_get_year;
-  calendar_class->get_month = g_calendar_gregorian_real_get_month;
+  calendar_class                   = G_CALENDAR_CLASS (klass);
+  calendar_class->get_year         = g_calendar_gregorian_real_get_year;
+  calendar_class->get_month        = g_calendar_gregorian_real_get_month;
   calendar_class->get_day_of_month = g_calendar_gregorian_real_get_day_of_month;
-  calendar_class->get_day_of_week = g_calendar_gregorian_real_get_day_of_week;
-  calendar_class->get_day_of_year = g_calendar_gregorian_real_get_day_of_year;
-  calendar_class->get_hour = g_calendar_gregorian_real_get_hour;
-  calendar_class->get_minute = g_calendar_gregorian_real_get_minute;
-  calendar_class->get_second = g_calendar_gregorian_real_get_second;
+  calendar_class->get_day_of_week  = g_calendar_gregorian_real_get_day_of_week;
+  calendar_class->get_day_of_year  = g_calendar_gregorian_real_get_day_of_year;
+  calendar_class->get_hour         = g_calendar_gregorian_real_get_hour;
+  calendar_class->get_minute       = g_calendar_gregorian_real_get_minute;
+  calendar_class->get_second       = g_calendar_gregorian_real_get_second;
+  calendar_class->is_leap_year     = g_calendar_gregorian_real_is_leap_year;
 }
 
 static void

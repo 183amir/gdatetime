@@ -231,3 +231,23 @@ g_calendar_from_locale (void)
 
   return current;
 }
+
+/**
+ * g_calendar_is_leap_year:
+ * @calendar: A #GCalendar
+ * @datetime: A #GDateTime
+ *
+ * Determines if @datetime represents a year that is a leap year in the
+ * calendar.
+ *
+ * Return value: %TRUE if @datetime represents a leap year in @calendar.
+ *
+ * Since: 2.24
+ */
+gboolean
+g_calendar_is_leap_year (GCalendar *calendar,
+                         GDateTime *datetime)
+{
+  g_return_val_if_fail (G_IS_CALENDAR (calendar), 0);
+  return G_CALENDAR_GET_CLASS (calendar)->is_leap_year (calendar, datetime);
+}

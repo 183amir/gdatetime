@@ -12,12 +12,14 @@ FILES = \
 	gdatetime-tests.c \
 	gcalendar.c \
 	gcalendargregorian.c \
+	gcalendarjulian.c \
 	$(NULL)
 
 HEADERS = \
 	gdatetime.h \
 	gcalendar.h \
 	gcalendargregorian.h \
+	gcalendarjulian.h \
 	$(NULL)
 
 gdatetime-tests: $(FILES) $(HEADERS)

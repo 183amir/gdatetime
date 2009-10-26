@@ -50,14 +50,15 @@ struct _GCalendarClass
 {
   GObjectClass parent_class;
 
-  gint (*get_year)         (GCalendar *calendar, GDateTime *datetime);
-  gint (*get_month)        (GCalendar *calendar, GDateTime *datetime);
-  gint (*get_day_of_month) (GCalendar *calendar, GDateTime *datetime);
-  gint (*get_day_of_week)  (GCalendar *calendar, GDateTime *datetime);
-  gint (*get_day_of_year)  (GCalendar *calendar, GDateTime *datetime);
-  gint (*get_hour)         (GCalendar *calendar, GDateTime *datetime);
-  gint (*get_minute)       (GCalendar *calendar, GDateTime *datetime);
-  gint (*get_second)       (GCalendar *calendar, GDateTime *datetime);
+  gint     (*get_year)         (GCalendar *calendar, GDateTime *datetime);
+  gint     (*get_month)        (GCalendar *calendar, GDateTime *datetime);
+  gint     (*get_day_of_month) (GCalendar *calendar, GDateTime *datetime);
+  gint     (*get_day_of_week)  (GCalendar *calendar, GDateTime *datetime);
+  gint     (*get_day_of_year)  (GCalendar *calendar, GDateTime *datetime);
+  gint     (*get_hour)         (GCalendar *calendar, GDateTime *datetime);
+  gint     (*get_minute)       (GCalendar *calendar, GDateTime *datetime);
+  gint     (*get_second)       (GCalendar *calendar, GDateTime *datetime);
+  gboolean (*is_leap_year)     (GCalendar *calendar, GDateTime *datetime);
 };
 
 GType       g_calendar_get_type         (void) G_GNUC_CONST;
@@ -77,6 +78,8 @@ gint        g_calendar_get_hour         (GCalendar *calendar,
 gint        g_calendar_get_minute       (GCalendar *calendar,
                                          GDateTime *datetime);
 gint        g_calendar_get_second       (GCalendar *calendar,
+                                         GDateTime *datetime);
+gboolean    g_calendar_is_leap_year     (GCalendar *calendar,
                                          GDateTime *datetime);
 
 G_END_DECLS

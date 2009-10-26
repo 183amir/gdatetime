@@ -1013,6 +1013,23 @@ test_GCalendarGregorian_get_second (void)
 }
 
 static void
+test_GCalendarGregorian_is_leap_year (void)
+{
+  GDateTime *dt;
+  GCalendar *cal;
+
+  cal = g_calendar_gregorian_new ();
+
+  dt = g_date_time_new_from_date (2009, 10, 10);
+  g_assert_cmpint (FALSE, ==, g_calendar_is_leap_year (cal, dt));
+  g_date_time_unref (dt);
+
+  dt = g_date_time_new_from_date (2008, 10, 10);
+  g_assert_cmpint (TRUE, ==, g_calendar_is_leap_year (cal, dt));
+  g_date_time_unref (dt);
+}
+
+static void
 test_GCalendar_from_locale (void)
 {
   GCalendar *cal;
@@ -1145,6 +1162,8 @@ main (gint   argc,
                    test_GCalendarGregorian_get_minute);
   g_test_add_func ("/GCalendarGregorian/get_second",
                    test_GCalendarGregorian_get_second);
+  g_test_add_func ("/GCalendarGregorian/is_leap_year",
+                   test_GCalendarGregorian_is_leap_year);
 
   return g_test_run ();
 }
