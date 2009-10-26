@@ -19,6 +19,7 @@
 
 #include <glib.h>
 #include <glib/gi18n.h>
+#include <stdlib.h>
 #include <string.h>
 #include <sys/time.h>
 #include <time.h>
@@ -1559,6 +1560,19 @@ g_date_time_parse (const gchar *input)
  * Parses @input using the @format specified.  The parsed date and time is
  * stored in a new #GDateTime and returned.
  *
+ * The following format specifiers are supported:
+ *
+ * %%d    The day ranging from 1 to 31.
+ * %%H    The hour ranging from 1 to 23.
+ * %%I    The hour ranging from 1 to 12. Best used with %%p or %%P.
+ * %%m    The month ranging from 1 to 12.
+ * %%M    The minute ranging from 1 to 59.
+ * %%p    The AM/PM specifier.
+ * %%P    The am/pm specifier.
+ * %%S    The second ranging from 1 to 60.
+ * %%t    A literal tab (\t).
+ * %%y    The 2-decimal representation of the year.
+ *
  * Return value: the newly created #GDateTime which should be freed with
  *   g_date_time_unref() or %NULL upon error.
  *
@@ -1568,8 +1582,151 @@ GDateTime*
 g_date_time_parse_with_format (const gchar *format,
                                const gchar *input)
 {
-  /* TODO: Implement parsing with locale support */
-  g_warn_if_reached ();
+  gint      year    = 1,
+            month   = 1,
+            day     = 1,
+            hour    = 0,
+            minute  = 0,
+            second  = 0,
+            utf8len,
+            i;
+  gboolean  in_mod   = FALSE,
+            has_ampm = FALSE,
+            is_pm    = FALSE;
+  gchar    *tmpf,
+            buffer [64],
+            c;
+
+  g_return_val_if_fail (format != NULL, NULL);
+  g_return_val_if_fail (g_utf8_validate (format, -1, NULL), NULL);
+  g_return_val_if_fail (input != NULL, NULL);
+  g_return_val_if_fail (g_utf8_validate (input, -1, NULL), NULL);
+
+  utf8len = g_utf8_strlen (format, -1);
+  memset (buffer, 0, sizeof (buffer));
+
+#define HANDLE_INT(p,w,o) G_STMT_START {                                    \
+  memset (buffer, 0, sizeof (buffer));                                      \
+  memcpy (buffer, (p), (w));                                                \
+  *(o) = atoi (buffer);                                                     \
+  input += (w);                                                             \
+} G_STMT_END
+
+  for (i = 0; i < utf8len; i++)
+    {
+      tmpf = g_utf8_offset_to_pointer (format, i);
+      c = g_utf8_get_char (tmpf);
+
+      if (!in_mod)
+        {
+          if (c == '%')
+            in_mod = TRUE;
+          else
+            {
+              if (tmpf [0] != input [0])
+                goto bad_format;
+              input++;
+            }
+        }
+      else
+        {
+          switch (c) {
+          case '%':
+            if (input [0] != '%')
+              goto bad_format;
+            input++;
+            break;
+          case 'd':
+            HANDLE_INT (input, 2, &day);
+            break;
+          case 'H':
+            HANDLE_INT (input, 2, &hour);
+            break;
+          case 'I':
+            HANDLE_INT (input, 2, &hour);
+            break;
+          case 'M':
+            HANDLE_INT (input, 2, &minute);
+            break;
+          case 'm':
+            HANDLE_INT (input, 2, &month);
+            break;
+          case 'p':
+            has_ampm = TRUE;
+            if (g_str_has_prefix (input, "PM"))
+              is_pm = TRUE;
+            else if (g_str_has_prefix (input, "AM"))
+              is_pm = FALSE;
+            else
+              goto bad_format;
+            input += 2;
+            break;
+          case 'P':
+            has_ampm = TRUE;
+            if (g_str_has_prefix (input, "pm"))
+              is_pm = TRUE;
+            else if (g_str_has_prefix (input, "am"))
+              is_pm = FALSE;
+            else
+              goto bad_format;
+            input += 2;
+            break;
+          case 'S':
+            HANDLE_INT (input, 2, &second);
+            break;
+          case 't':
+            if (input [0] != '\t')
+              goto bad_format;
+            input++;
+            break;
+          case 'y':
+            HANDLE_INT (input, 2, &year);
+            if (year > 70)
+              year += 1900;
+            else
+              year += 2000;
+            break;
+          case 'Y':
+            HANDLE_INT (input, 4, &year);
+            break;
+          default:
+            //goto bad_format;
+            input++;
+            break;
+          }
+
+          in_mod = FALSE;
+        }
+    }
+
+  if (month < 1 || month > 12)
+    goto bad_value;
+  else if (day < 1 || day > 31)
+    goto bad_value;
+  else if (hour < 0 || hour > 23)
+    goto bad_value;
+  else if (minute < 0 || minute > 59)
+    goto bad_value;
+  else if (second < 0 || second > 60)
+    goto bad_value;
+
+  if (has_ampm)
+    {
+      if (!is_pm && hour == 12)
+        hour = 0;
+      else if (is_pm && hour < 12)
+        hour += 12;
+    }
+
+  return g_date_time_new_full (year, month, day, hour, minute, second);
+
+bad_format:
+  g_debug ("Bad Format: Expected \"%s\", got \"%s\"", tmpf, input);
+  return NULL;
+
+bad_value:
+  g_debug ("Bad Value: Year=%d, Month=%d, Day=%d, Hour=%d, Minute=%d, Second=%d",
+           year, month, day, hour, minute, second);
   return NULL;
 }
 
@@ -1602,22 +1759,22 @@ g_date_time_parse_with_format (const gchar *format,
  * %%M  The minute as a decimal number (range 00 to 59).
  * %%N  The micro-seconds as a decimal number.
  * %%p  Either "AM" or "PM" according to the given time  value, or the
- *   corresponding  strings  for the current locale.  Noon is treated
- *   as "PM" and midnight as "AM".
+ *      corresponding  strings  for the current locale.  Noon is treated
+ *      as "PM" and midnight as "AM".
  * %%P  Like %%p but lowercase: "am" or "pm" or a corresponding string for
- *   the current locale.
+ *      the current locale.
  * %%r  The time in a.m. or p.m. notation.
  * %%R  The time in 24-hour notation (%H:%M).
  * %%s  The number of seconds since the Epoch, that is, since 1970-01-01
- *   00:00:00 UTC.
+ *      00:00:00 UTC.
  * %%S  The second as a decimal number (range 00 to 60).
  * %%t  A tab character.
  * %%u  The day of the week as a decimal, range 1 to 7, Monday being 1.
  * %%W  The week number of the current year as a decimal number.
  * %%x  The preferred date representation for the current locale without
- *   the date.
+ *      the date.
  * %%X  The preferred date representation for the current locale without
- *   the time.
+ *      the time.
  * %%y  The year as a decimal number without the century.
  * %%Y  The year as a decimal number including the century.
  * %%z  The timezone or name or abbreviation.
@@ -1635,11 +1792,11 @@ g_date_time_printf (GDateTime   *datetime,
 {
   GString     *outstr;
   const gchar *tmp;
-  gchar       *tmp2;
+  gchar       *tmp2,
+               c;
   glong        utf8len;
   gint         i;
   gboolean     in_mod;
-  gchar        c;
   
   g_return_val_if_fail (datetime != NULL, NULL);
   g_return_val_if_fail (format != NULL, NULL);
