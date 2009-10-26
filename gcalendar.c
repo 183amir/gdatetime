@@ -54,6 +54,13 @@ g_calendar_get_day_of_month (GCalendar *calendar,
 }
 
 gint
+g_calendar_get_day_of_year (GCalendar *calendar,
+                            GDateTime *datetime)
+{
+  return G_CALENDAR_GET_CLASS (calendar)->get_day_of_year (calendar, datetime);
+}
+
+gint
 g_calendar_get_hour (GCalendar *calendar,
                      GDateTime *datetime)
 {

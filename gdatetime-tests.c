@@ -947,6 +947,19 @@ test_GCalendarGregorian_get_day_of_month (void)
 }
 
 static void
+test_GCalendarGregorian_get_day_of_year (void)
+{
+  GCalendar *cal;
+  GDateTime *dt;
+
+  dt = g_date_time_new_full (2009, 10, 25, 13, 14, 15);
+  cal = g_calendar_gregorian_new ();
+  g_assert_cmpint (298, ==, g_calendar_get_day_of_year (cal, dt));
+  g_date_time_unref (dt);
+  g_object_unref (cal);
+}
+
+static void
 test_GCalendarGregorian_get_hour (void)
 {
   GCalendar *cal;
@@ -1109,6 +1122,8 @@ main (gint   argc,
                    test_GCalendarGregorian_get_month);
   g_test_add_func ("/GCalendarGregorian/get_day_of_month",
                    test_GCalendarGregorian_get_day_of_month);
+  g_test_add_func ("/GCalendarGregorian/get_day_of_year",
+                   test_GCalendarGregorian_get_day_of_year);
   g_test_add_func ("/GCalendarGregorian/get_hour",
                    test_GCalendarGregorian_get_hour);
   g_test_add_func ("/GCalendarGregorian/get_minute",

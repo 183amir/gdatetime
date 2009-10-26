@@ -52,6 +52,16 @@ g_calendar_gregorian_real_get_day_of_month (GCalendar *calendar,
 }
 
 static gint
+g_calendar_gregorian_real_get_day_of_year (GCalendar *calendar,
+                                           GDateTime *datetime)
+{
+  g_return_val_if_fail (calendar != NULL, 0);
+  g_return_val_if_fail (datetime != NULL, 0);
+
+  return g_date_time_get_day_of_year (datetime);
+}
+
+static gint
 g_calendar_gregorian_real_get_hour (GCalendar *calendar,
                                     GDateTime *datetime)
 {
@@ -90,6 +100,7 @@ g_calendar_gregorian_class_init (GCalendarGregorianClass *klass)
   calendar_class->get_year = g_calendar_gregorian_real_get_year;
   calendar_class->get_month = g_calendar_gregorian_real_get_month;
   calendar_class->get_day_of_month = g_calendar_gregorian_real_get_day_of_month;
+  calendar_class->get_day_of_year = g_calendar_gregorian_real_get_day_of_year;
   calendar_class->get_hour = g_calendar_gregorian_real_get_hour;
   calendar_class->get_minute = g_calendar_gregorian_real_get_minute;
   calendar_class->get_second = g_calendar_gregorian_real_get_second;
