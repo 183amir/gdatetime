@@ -100,6 +100,19 @@ g_calendar_gregorian_init (GCalendarGregorian *self)
 {
 }
 
+/**
+ * g_calendar_gregorian_new:
+ *
+ * Creates a new instance of #GCalendarGregorian which can be used to translate
+ * GDateTime<!-- -->'s into the Gregorian Calendar.  Since #GDateTime uses the
+ * Gregorian Calendar by default, this is mostly just a wrapper conforming to
+ * the #GCalendar API.
+ *
+ * Return value: the newly created #GCalendarGregorian which should be freed with
+ *   g_object_unref().
+ *
+ * Since: 2.24
+ */
 GCalendar*
 g_calendar_gregorian_new (void)
 {

@@ -986,6 +986,17 @@ test_GCalendarGregorian_get_second (void)
   g_object_unref (cal);
 }
 
+static void
+test_GCalendar_from_locale (void)
+{
+  GCalendar *cal;
+
+  cal = g_calendar_from_locale ();
+  g_assert (cal != NULL);
+  g_assert (G_IS_CALENDAR (cal));
+  g_assert (cal == g_calendar_from_locale ());
+}
+
 gint
 main (gint   argc,
       gchar *argv[])
@@ -1090,6 +1101,8 @@ main (gint   argc,
 
   /* GCalendar Tests */
 
+  g_test_add_func ("/GCalendar/from_locale",
+                   test_GCalendar_from_locale);
   g_test_add_func ("/GCalendarGregorian/get_year",
                    test_GCalendarGregorian_get_year);
   g_test_add_func ("/GCalendarGregorian/get_month",

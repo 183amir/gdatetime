@@ -18,6 +18,7 @@
  */
 
 #include "gcalendar.h"
+#include "gcalendargregorian.h"
 
 G_DEFINE_ABSTRACT_TYPE (GCalendar, g_calendar, G_TYPE_OBJECT)
 
@@ -76,6 +77,17 @@ g_calendar_get_second (GCalendar *calendar,
 GCalendar*
 g_calendar_from_locale (void)
 {
-  g_warn_if_reached ();
-  return NULL;
+  static GCalendar *current = NULL;
+
+  if (g_once_init_enter ((gsize*)&current))
+    {
+      GCalendar *calendar = NULL;
+
+      /* TODO: Support other locales */
+      calendar = g_calendar_gregorian_new ();
+
+      g_once_init_leave ((gsize*)&current, (gsize)calendar);
+    }
+
+  return current;
 }
