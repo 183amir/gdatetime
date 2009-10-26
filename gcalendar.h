@@ -22,6 +22,8 @@
 
 #include <glib-object.h>
 
+#include "gdatetime.h"
+
 G_BEGIN_DECLS
 
 #define G_TYPE_CALENDAR             (g_calendar_get_type ())
@@ -57,7 +59,7 @@ struct _GCalendarClass
 };
 
 GType       g_calendar_get_type         (void) G_GNUC_CONST;
-GCalendar * g_calendar_current          (void);
+GCalendar * g_calendar_from_locale      (void);
 gint        g_calendar_get_year         (GCalendar *calendar,
                                          GDateTime *datetime);
 gint        g_calendar_get_month        (GCalendar *calendar,

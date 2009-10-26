@@ -7,8 +7,21 @@ WARNINGS = -Wall -Werror -Wold-style-definition -Wdeclaration-after-statement \
 	   -Wundef -Waggregate-return -Wmissing-format-attribute \
 	   -Wnested-externs
 
-gdatetime-tests: gdatetime.c gdatetime.h gdatetime-tests.c
-	gcc -g -o $@ $(WARNINGS) gdatetime.c gdatetime-tests.c `pkg-config --libs --cflags glib-2.0`
+FILES = \
+	gdatetime.c \
+	gdatetime-tests.c \
+	gcalendar.c \
+	gcalendargregorian.c \
+	$(NULL)
+
+HEADERS = \
+	gdatetime.h \
+	gcalendar.h \
+	gcalendargregorian.h \
+	$(NULL)
+
+gdatetime-tests: $(FILES) $(HEADERS)
+	gcc -g -o $@ $(WARNINGS) $(FILES) `pkg-config --libs --cflags gobject-2.0`
 
 clean:
 	rm -rf gdatetime-tests
