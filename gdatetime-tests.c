@@ -28,6 +28,11 @@
   g_assert_cmpint ((m), ==, g_date_time_get_month ((dt))); \
   g_assert_cmpint ((d), ==, g_date_time_get_day_of_month ((dt))); \
 } G_STMT_END
+#define ASSERT_TIME(dt,H,M,S) G_STMT_START { \
+  g_assert_cmpint ((H), ==, g_date_time_get_hour ((dt))); \
+  g_assert_cmpint ((M), ==, g_date_time_get_minute ((dt))); \
+  g_assert_cmpint ((S), ==, g_date_time_get_second ((dt))); \
+} G_STMT_END
 
 static void
 test_g_date_time_now (void)
@@ -868,6 +873,38 @@ g_date_time_unref (dt); \
   TEST_PRINTF ("%9", NULL);
 }
 
+static void
+test_g_date_time_parse_with_format (void)
+{
+#define TEST_PARSE_FORMAT(f,i,y,m,d,H,M,S) G_STMT_START { \
+  GDateTime *dt; \
+  dt = g_date_time_parse_with_format ((f), (i)); \
+  ASSERT_DATE (dt, y, m, d); \
+  ASSERT_TIME (dt, H, M, S); \
+  g_date_time_unref (dt); \
+} G_STMT_END
+
+  TEST_PARSE_FORMAT ("%d", "3", 1, 1, 3, 0, 0, 0);
+  TEST_PARSE_FORMAT ("%d", "03", 1, 1, 3, 0, 0, 0);
+  TEST_PARSE_FORMAT ("%d", "13", 1, 1, 13, 0, 0, 0);
+  TEST_PARSE_FORMAT ("%d", "31", 1, 1, 31, 0, 0, 0);
+  TEST_PARSE_FORMAT ("%I", "12", 1, 1, 1, 12, 0, 0);
+  TEST_PARSE_FORMAT ("%I %p", "12 PM", 1, 1, 1, 12, 0, 0);
+  TEST_PARSE_FORMAT ("%I %p", "12 AM", 1, 1, 1, 0, 0, 0);
+  TEST_PARSE_FORMAT ("%I %P", "12 pm", 1, 1, 1, 12, 0, 0);
+  TEST_PARSE_FORMAT ("%I %P", "12 am", 1, 1, 1, 0, 0, 0);
+  TEST_PARSE_FORMAT ("%m", "1", 1, 1, 1, 0, 0, 0);
+  TEST_PARSE_FORMAT ("%m", "7", 1, 7, 1, 0, 0, 0);
+  TEST_PARSE_FORMAT ("%m", "12", 1, 12, 1, 0, 0, 0);
+  TEST_PARSE_FORMAT ("%M", "1", 1, 1, 1, 0, 1, 0);
+  TEST_PARSE_FORMAT ("%M", "55", 1, 1, 1, 0, 55, 0);
+  TEST_PARSE_FORMAT ("%y", "09", 2009, 1, 1, 0, 0, 0);
+  TEST_PARSE_FORMAT ("%Y", "2009", 2009, 1, 1, 0, 0, 0);
+  TEST_PARSE_FORMAT ("%y/%m/%d", "09/10/24", 2009, 10, 24, 0, 0, 0);
+  TEST_PARSE_FORMAT ("%t", "\t", 1, 1, 1, 0, 0, 0);
+  TEST_PARSE_FORMAT ("%%", "%", 1, 1, 1, 0, 0, 0);
+}
+
 gint
 main (gint   argc,
       gchar *argv[])
@@ -945,9 +982,9 @@ main (gint   argc,
   /*
   g_test_add_func ("/GDateTime/parse",
                    test_g_date_time_parse);
+  */
   g_test_add_func ("/GDateTime/parse_with_format",
                    test_g_date_time_parse_with_format);
-  */
   g_test_add_func ("/GDateTime/printf",
                    test_g_date_time_printf);
   g_test_add_func ("/GDateTime/ref",
