@@ -107,11 +107,12 @@
              + (y / 400)                                                    \
              - 32045;                                                       \
 } G_STMT_END
-#define GET_AMPM(d,l)         (g_date_time_get_hour (d) < 12 ? (l ? "am" : "AM") : (l ? "pm" : "PM"))
-#define WEEKDAY_ABBR(d)       (weekdays_abbr [g_date_time_get_day_of_week (datetime)])
-#define WEEKDAY_FULL(d)       (weekdays_full [g_date_time_get_day_of_week (datetime)])
-#define MONTH_ABBR(d)         (months_abbr [g_date_time_get_month (datetime)])
-#define MONTH_FULL(d)         (months_full [g_date_time_get_month (datetime)])
+#define GET_AMPM(d,l)         (g_date_time_get_hour (d) < 12 ?              \
+                               (l ? "am" : "AM") : (l ? "pm" : "PM"))
+#define WEEKDAY_ABBR(d)       (Q_(weekdays_abbr [g_date_time_get_day_of_week (datetime)]))
+#define WEEKDAY_FULL(d)       (Q_(weekdays_full [g_date_time_get_day_of_week (datetime)]))
+#define MONTH_ABBR(d)         (Q_(months_abbr [g_date_time_get_month (datetime)]))
+#define MONTH_FULL(d)         (Q_(months_full [g_date_time_get_month (datetime)]))
 #define GET_PREFERRED_DATE(d) (g_date_time_printf ((d), Q_("GDateTime|%m/%d/%y")))
 #define GET_PREFERRED_TIME(d) (g_date_time_printf ((d), Q_("GDateTime|%H:%M:%S")))
 
@@ -131,56 +132,56 @@ static const guint16 days_in_year[2][13] =
 
 static const gchar* weekdays_abbr[] = {
   NULL,
-  "Mon",
-  "Tue",
-  "Wed",
-  "Thur",
-  "Fri",
-  "Sat",
-  "Sun"
+  "GDateTime|Mon",
+  "GDateTime|Tue",
+  "GDateTime|Wed",
+  "GDateTime|Thur",
+  "GDateTime|Fri",
+  "GDateTime|Sat",
+  "GDateTime|Sun"
 };
 
 static const gchar* weekdays_full[] = {
   NULL,
-  "Monday",
-  "Tuesday",
-  "Wednesday",
-  "Thursday",
-  "Friday",
-  "Saturday",
-  "Sunday"
+  "GDateTime|Monday",
+  "GDateTime|Tuesday",
+  "GDateTime|Wednesday",
+  "GDateTime|Thursday",
+  "GDateTime|Friday",
+  "GDateTime|Saturday",
+  "GDateTime|Sunday"
 };
 
 static const gchar* months_abbr[] = {
   NULL,
-  "Jan",
-  "Feb",
-  "Mar",
-  "Apr",
-  "May",
-  "Jun",
-  "Jul",
-  "Aug",
-  "Sep",
-  "Oct",
-  "Nov",
-  "Dec"
+  "GDateTime|Jan",
+  "GDateTime|Feb",
+  "GDateTime|Mar",
+  "GDateTime|Apr",
+  "GDateTime|May",
+  "GDateTime|Jun",
+  "GDateTime|Jul",
+  "GDateTime|Aug",
+  "GDateTime|Sep",
+  "GDateTime|Oct",
+  "GDateTime|Nov",
+  "GDateTime|Dec"
 };
 
 static const gchar* months_full[] = {
   NULL,
   "January",
-  "February",
-  "March",
-  "April",
-  "May",
-  "June",
-  "July",
-  "August",
-  "September",
-  "October",
-  "November",
-  "December"
+  "GDateTime|February",
+  "GDateTime|March",
+  "GDateTime|April",
+  "GDateTime|May",
+  "GDateTime|June",
+  "GDateTime|July",
+  "GDateTime|August",
+  "GDateTime|September",
+  "GDateTime|October",
+  "GDateTime|November",
+  "GDateTime|December"
 };
 
 struct _GDateTime
