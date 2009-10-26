@@ -19,6 +19,20 @@
 
 #include "gcalendargregorian.h"
 
+/**
+ * SECTION:gcalendargregorian
+ * @title: GCalendarGregorian
+ * @short_description: The Gregorian calendar
+ *
+ * The Gregorian calendar is the currently the most geographically used
+ * calendar.  It supports Jan 1, 1 Common Era to _INSERT_MAX_HERE_.  Howerver,
+ * using the proleptic Gregorian calendar dates can be supported as far back
+ * as -23,000 BC.
+ *
+ * TODO: Add some more information from the Calendar FAQ.
+ * TODO: Update date/time boundries.
+ */
+
 G_DEFINE_TYPE (GCalendarGregorian, g_calendar_gregorian, G_TYPE_CALENDAR)
 
 static gint

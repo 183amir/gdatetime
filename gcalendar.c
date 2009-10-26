@@ -22,6 +22,20 @@
 
 G_DEFINE_ABSTRACT_TYPE (GCalendar, g_calendar, G_TYPE_OBJECT)
 
+/**
+ * SECTION:gcalendar
+ * @title: GCalendar
+ * @short_description: Localized calendars
+ *
+ * #GCalendar provides an abstract way to interact with locale specific
+ * calendars.  #GDateTime provides precise date and times within the
+ * Gregorian calendar and #GCalendar implementations can translate that
+ * into the locale's format.
+ *
+ * You can get the #GCalendar implementation for the current locale using
+ * g_calendar_from_locale().
+ */
+
 static void
 g_calendar_class_init (GCalendarClass *klass)
 {
