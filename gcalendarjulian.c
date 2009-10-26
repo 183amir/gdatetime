@@ -30,25 +30,57 @@
 
 G_DEFINE_TYPE (GCalendarJulian, g_calendar_julian, G_TYPE_CALENDAR)
 
+static void
+get_julian_dmy (GDateTime *datetime,
+		gint      *day,
+		gint      *month,
+		gint      *year)
+{
+  gint b, c, d, e, m, jd;
+
+  g_date_time_get_julian (datetime, NULL, &jd, NULL, NULL, NULL);
+
+  b = 0;
+  c = jd + 32082;
+  d = ((4 * c) + 3) / 1461;
+  e = c - ((1461 * d) / 4);
+  m = ((5 * e) + 2) / 153;
+
+  if (day)
+    *day = e - (((153 * m) + 2) / 5) + 1;
+
+  if (month)
+    *month = m + 3 - (12 * (m / 10));
+
+  if (year)
+    *year = (b * 100) + d - 4800 + (m / 10);
+}
+
 static gint
 g_calendar_julian_real_get_year (GCalendar *calendar,
                                  GDateTime *datetime)
 {
-  return g_date_time_get_year (datetime);
+  gint year;
+  get_julian_dmy (datetime, NULL, NULL, &year);
+  return year;
 }
 
 static gint
 g_calendar_julian_real_get_month (GCalendar *calendar,
                                   GDateTime *datetime)
 {
-  return g_date_time_get_month (datetime);
+  gint month;
+  get_julian_dmy (datetime, NULL, &month, NULL);
+  return month;
 }
 
 static gint
 g_calendar_julian_real_get_day_of_month (GCalendar *calendar,
                                          GDateTime *datetime)
 {
-  return g_date_time_get_day_of_month (datetime);
+  gint day;
+  get_julian_dmy (datetime, &day, NULL, NULL);
+  return day;
 }
 
 gint

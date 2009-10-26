@@ -24,6 +24,7 @@
 #include "gdatetime.h"
 #include "gcalendar.h"
 #include "gcalendargregorian.h"
+#include "gcalendarjulian.h"
 
 #define ASSERT_DATE(dt,y,m,d) G_STMT_START { \
   g_assert_cmpint ((y), ==, g_date_time_get_year ((dt))); \
@@ -1039,6 +1040,46 @@ test_GCalendar_from_locale (void)
   g_assert (cal == g_calendar_from_locale ());
 }
 
+static void
+test_GCalendarJulian_get_year (void)
+{
+  GCalendar *cal;
+  GDateTime *dt;
+
+  cal = g_calendar_julian_new ();
+  dt = g_date_time_new_from_date (2009, 10, 26);
+  g_assert_cmpint (g_calendar_get_year (cal, dt), ==, 2009);
+  g_date_time_unref (dt);
+  g_object_unref (cal);
+}
+
+static void
+test_GCalendarJulian_get_month (void)
+{
+  GCalendar *cal;
+  GDateTime *dt;
+
+  cal = g_calendar_julian_new ();
+  dt = g_date_time_new_from_date (2009, 10, 26);
+  g_assert_cmpint (g_calendar_get_month (cal, dt), ==, 10);
+  g_date_time_unref (dt);
+  g_object_unref (cal);
+}
+
+static void
+test_GCalendarJulian_get_day_of_month (void)
+{
+  GCalendar *cal;
+  GDateTime *dt;
+
+  cal = g_calendar_julian_new ();
+  dt = g_date_time_new_from_date (2009, 10, 26);
+  /* Julian calendar is 13 days different */
+  g_assert_cmpint (g_calendar_get_day_of_month (cal, dt), ==, 13);
+  g_date_time_unref (dt);
+  g_object_unref (cal);
+}
+
 gint
 main (gint   argc,
       gchar *argv[])
@@ -1163,6 +1204,12 @@ main (gint   argc,
                    test_GCalendarGregorian_get_second);
   g_test_add_func ("/GCalendarGregorian/is_leap_year",
                    test_GCalendarGregorian_is_leap_year);
+  g_test_add_func ("/GCalendarJulian/get_year",
+		   test_GCalendarJulian_get_year);
+  g_test_add_func ("/GCalendarJulian/get_month",
+		   test_GCalendarJulian_get_month);
+  g_test_add_func ("/GCalendarJulian/get_day_of_month",
+		   test_GCalendarJulian_get_day_of_month);
 
   return g_test_run ();
 }
