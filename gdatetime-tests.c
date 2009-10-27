@@ -1205,11 +1205,11 @@ main (gint   argc,
   g_test_add_func ("/GCalendarGregorian/is_leap_year",
                    test_GCalendarGregorian_is_leap_year);
   g_test_add_func ("/GCalendarJulian/get_year",
-		   test_GCalendarJulian_get_year);
+                   test_GCalendarJulian_get_year);
   g_test_add_func ("/GCalendarJulian/get_month",
-		   test_GCalendarJulian_get_month);
+                   test_GCalendarJulian_get_month);
   g_test_add_func ("/GCalendarJulian/get_day_of_month",
-		   test_GCalendarJulian_get_day_of_month);
+                   test_GCalendarJulian_get_day_of_month);
 
   return g_test_run ();
 }
