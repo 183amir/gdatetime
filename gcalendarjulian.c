@@ -87,7 +87,22 @@ gint
 g_calendar_julian_real_get_day_of_week (GCalendar *calendar,
                                         GDateTime *datetime)
 {
-  return g_date_time_get_day_of_week (datetime);
+  gint year,
+       month,
+       day,
+       a,
+       y,
+       m;
+
+  year = g_date_time_get_year (datetime);
+  month = g_date_time_get_month (datetime);
+  day = g_date_time_get_day_of_month (datetime);
+
+  a = (14 - month);
+  y = year - a;
+  m = month + (12 * a) - 2;
+
+  return ((5 + day + y + (y / 4) + ((31 * m) / 12)) % 7) + 1;
 }
 
 static gint

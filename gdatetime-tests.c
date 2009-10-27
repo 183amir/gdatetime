@@ -1080,6 +1080,19 @@ test_GCalendarJulian_get_day_of_month (void)
   g_object_unref (cal);
 }
 
+static void
+test_GCalendarJulian_get_day_of_week (void)
+{
+  GCalendar *cal;
+  GDateTime *dt;
+
+  cal = g_calendar_julian_new ();
+  dt = g_date_time_new_from_date (2009, 10, 26);
+  g_assert_cmpint (g_calendar_get_day_of_week (cal, dt), ==, 1);
+  g_date_time_unref (dt);
+  g_object_unref (cal);
+}
+
 gint
 main (gint   argc,
       gchar *argv[])
@@ -1210,6 +1223,8 @@ main (gint   argc,
                    test_GCalendarJulian_get_month);
   g_test_add_func ("/GCalendarJulian/get_day_of_month",
                    test_GCalendarJulian_get_day_of_month);
+  g_test_add_func ("/GCalendarJulian/get_day_of_week",
+                   test_GCalendarJulian_get_day_of_week);
 
   return g_test_run ();
 }
