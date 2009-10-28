@@ -83,7 +83,7 @@ g_calendar_julian_real_get_day_of_month (GCalendar *calendar,
   return day;
 }
 
-gint
+static gint
 g_calendar_julian_real_get_day_of_week (GCalendar *calendar,
                                         GDateTime *datetime)
 {

@@ -1093,6 +1093,44 @@ test_GCalendarJulian_get_day_of_week (void)
   g_object_unref (cal);
 }
 
+static void
+test_GCalendarJulian_get_hour (void)
+{
+}
+
+static void
+test_GCalendarJulian_get_minute (void)
+{
+}
+
+static void
+test_GCalendarJulian_get_second (void)
+{
+}
+
+static void
+test_GCalendarJulian_is_leap_year (void)
+{
+#define TEST_JULIAN_LEAP(year,is_leap) G_STMT_START { \
+  GDateTime *dt; \
+  GCalendar *cal; \
+  cal = g_calendar_julian_new (); \
+  dt = g_date_time_new_from_date ((year), 10, 28); \
+  g_assert_cmpint (is_leap, ==, g_calendar_is_leap_year (cal, dt)); \
+  g_date_time_unref (dt); \
+  g_object_unref (cal); \
+} G_STMT_END
+
+  TEST_JULIAN_LEAP (2008, TRUE);
+  TEST_JULIAN_LEAP (2009, FALSE);
+  TEST_JULIAN_LEAP (1400, TRUE);
+  TEST_JULIAN_LEAP (0, FALSE);
+  TEST_JULIAN_LEAP (-1, FALSE);
+  TEST_JULIAN_LEAP (-2, FALSE);
+  TEST_JULIAN_LEAP (-3, TRUE);
+  TEST_JULIAN_LEAP (-4, FALSE);
+}
+
 gint
 main (gint   argc,
       gchar *argv[])
@@ -1225,6 +1263,14 @@ main (gint   argc,
                    test_GCalendarJulian_get_day_of_month);
   g_test_add_func ("/GCalendarJulian/get_day_of_week",
                    test_GCalendarJulian_get_day_of_week);
+  g_test_add_func ("/GCalendarJulian/get_hour",
+                   test_GCalendarJulian_get_hour);
+  g_test_add_func ("/GCalendarJulian/get_minute",
+                   test_GCalendarJulian_get_minute);
+  g_test_add_func ("/GCalendarJulian/get_second",
+                   test_GCalendarJulian_get_second);
+  g_test_add_func ("/GCalendarJulian/is_leap_year",
+                   test_GCalendarJulian_is_leap_year);
 
   return g_test_run ();
 }
