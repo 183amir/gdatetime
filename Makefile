@@ -27,3 +27,6 @@ gdatetime-tests: $(FILES) $(HEADERS)
 
 clean:
 	rm -rf gdatetime-tests
+
+valgrind: gdatetime-tests
+	 G_SLICE=always-malloc G_DEBUG=gc-friendly valgrind --leak-check=full --leak-resolution=high --suppressions=gtk.suppression ./gdatetime-tests

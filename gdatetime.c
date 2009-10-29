@@ -17,6 +17,23 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
+/* Algorithms within this file are based on the Calendar FAQ by
+ * Claus Tondering.  It can be found at
+ * http://www.tondering.dk/claus/cal/calendar29.txt
+ * 
+ * Copyright and disclaimer
+ * ------------------------
+ *   This document is Copyright (C) 2008 by Claus Tondering.
+ *   E-mail: claus@tondering.dk. (Please include the word
+ *   "calendar" in the subject line.)
+ *   The document may be freely distributed, provided this
+ *   copyright notice is included and no money is charged for
+ *   the document.
+ *
+ *   This document is provided "as is". No warranties are made as
+ *   to its correctness.
+ */
+
 #include <glib.h>
 #include <glib/gi18n.h>
 #include <stdlib.h>
@@ -50,7 +67,7 @@
  */
 
 #define GREGORIAN_LEAP(y)    (((y%4)==0)&&(!(((y%100)==0)&&((y%400)!=0))))
-#define JULIAN_YEAR(d)       (d->julian/365.25)
+#define JULIAN_YEAR(d)       ((d)->julian/365.25)
 #define DAYS_PER_PERIOD      (2914695)
 #define USEC_PER_SECOND      (G_GINT64_CONSTANT (1000000))
 #define USEC_PER_MINUTE      (G_GINT64_CONSTANT (60000000))
@@ -85,14 +102,6 @@
     d->usec = USEC_PER_DAY + (__usec % USEC_PER_DAY);                       \
   else                                                                      \
     d->usec = __usec % USEC_PER_DAY;                                        \
-} G_STMT_END
-#define PRINT_DATE_TIME(d) G_STMT_START {                                   \
-  guint64 __usec_p = d->usec;                                               \
-  g_print ("GDateTime {\n"                                                  \
-           "  Period..: %d\n"                                               \
-           "  Julian..: %d\n"                                               \
-           "  Usec....: %llu\n"                                             \
-           "}\n", d->period, d->julian, __usec_p);                          \
 } G_STMT_END
 #define TO_JULIAN(year,month,day,julian) G_STMT_START {                     \
   gint a = (14 - month) / 12;                                               \
@@ -193,20 +202,20 @@ struct _GDateTime
 
   volatile gint  ref_count;
 
-  GTimeZone     *tz;            /* TimeZone information */
+  GTimeZone     *tz;            /* TimeZone information, NULL is UTC */
 };
 
 struct _GTimeZone
 {
-  gint    year;
-  gchar  *std_name;
-  gint    std_gmtoff;
-  gchar  *dst_name;
-  gint    dst_gmtoff;
+  gint    year;                 /* Gregorian Year */
+  gchar  *std_name;             /* Standard time abbreviation (PST) */
+  gint    std_gmtoff;           /* Standard offset seconds from UTC */
+  gchar  *dst_name;             /* Daylight savings abbreviation (PDT) */
+  gint    dst_gmtoff;           /* Daylight savings offset seconds from UTC */
 
   struct {
-    guint julian;
-    guint seconds;
+    guint julian;               /* Day of the year */
+    guint seconds;              /* Seconds since Midnight */
   } dst_begin, dst_end;
 };
 
@@ -227,10 +236,10 @@ g_time_zone_get_cache (void)
 }
 
 /*
- * The built in timezone database rather sucks.  Well, to be more accurate,
- * the way of getting at it from libc sucks.  It isn't very useful for times
- * outside of the range of 1970-2038.  Therefore the following methods do
- * not provide accurate DST information for years not in that range.
+ * The built in timezone database is rather difficult to use from libc
+ * since there doesn't seem to be a way to get at the information for times
+ * other than 1970-2038.  Therefore the following methods do not provide
+ * accurate DST information for years not in that range.
  *
  * This method is based upon Mono's implementation which can be found at
  * http://anonsvn.mono-project.com/source/trunk/mono/mono/metadata/icall.c
