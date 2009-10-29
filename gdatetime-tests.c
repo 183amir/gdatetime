@@ -695,6 +695,7 @@ test_GDateTime_utc_now (void)
   g_assert_cmpint (tm.tm_hour, ==, g_date_time_get_hour (dt));
   g_assert_cmpint (tm.tm_min, ==, g_date_time_get_minute (dt));
   g_assert_cmpint (tm.tm_sec, ==, g_date_time_get_second (dt));
+  g_date_time_unref (dt);
 }
 
 static void
@@ -770,6 +771,8 @@ test_GDateTime_to_utc (void)
   g_assert_cmpint (tm.tm_hour, ==, g_date_time_get_hour (dt));
   g_assert_cmpint (tm.tm_min, ==, g_date_time_get_minute (dt));
   g_assert_cmpint (tm.tm_sec, ==, g_date_time_get_second (dt));
+  g_date_time_unref (dt);
+  g_date_time_unref (dt2);
 }
 
 #define g_assert_str_has_prefix(s,p) g_assert(g_str_has_prefix(s,p))
@@ -778,21 +781,26 @@ static void
 test_GDateTime_format_for_display (void)
 {
   GDateTime *dt, *dt1;
+  gchar *p;
 
   dt = g_date_time_now ();
-  g_assert_str_has_prefix (g_date_time_format_for_display (dt), "Today");
+  g_assert_str_has_prefix (p = g_date_time_format_for_display (dt), "Today");
+  g_free (p);
 
   dt1 = g_date_time_add_days (dt, 1);
-  g_assert_str_has_prefix (g_date_time_format_for_display (dt1), "Tomorrow");
+  g_assert_str_has_prefix (p = g_date_time_format_for_display (dt1), "Tomorrow");
   g_date_time_unref (dt1);
+  g_free (p);
 
   dt1 = g_date_time_add_days (dt, -1);
-  g_assert_str_has_prefix (g_date_time_format_for_display (dt1), "Yesterday");
+  g_assert_str_has_prefix (p = g_date_time_format_for_display (dt1), "Yesterday");
   g_date_time_unref (dt1);
+  g_free (p);
 
   dt1 = g_date_time_new_from_date (1400, 1, 1);
-  g_assert_str_has_prefix (g_date_time_format_for_display (dt1), "Jan 01, 1400, 12:00 AM");
+  g_assert_str_has_prefix (p = g_date_time_format_for_display (dt1), "Jan 01, 1400, 12:00 AM");
   g_date_time_unref (dt1);
+  g_free (p);
 
   g_date_time_unref (dt);
 }
@@ -817,18 +825,24 @@ test_GDateTime_printf (void)
 {
 #define TEST_PRINTF(f,o) G_STMT_START { \
 GDateTime *dt = g_date_time_new_from_date (2009, 10, 24); \
-g_assert_cmpstr (g_date_time_printf (dt, (f)), ==, (o)); \
-g_date_time_unref (dt); \
+  gchar *p = g_date_time_printf (dt, (f)); \
+  g_assert_cmpstr (p, ==, (o)); \
+  g_date_time_unref (dt); \
+  g_free(p); \
 } G_STMT_END
 #define TEST_PRINTF_DATE(y,m,d,f,o) G_STMT_START { \
   GDateTime *dt = g_date_time_new_from_date ((y), (m), (d)); \
-  g_assert_cmpstr (g_date_time_printf (dt, (f)), ==, (o)); \
+  gchar *p = g_date_time_printf (dt, (f)); \
+  g_assert_cmpstr (p, ==, (o)); \
   g_date_time_unref (dt); \
+  g_free (p); \
 } G_STMT_END
 #define TEST_PRINTF_TIME(h,m,s,f,o) G_STMT_START { \
-GDateTime *dt = g_date_time_new_full (2009, 10, 24, (h), (m), (s)); \
-g_assert_cmpstr (g_date_time_printf (dt, (f)), ==, (o)); \
-g_date_time_unref (dt); \
+  GDateTime *dt = g_date_time_new_full (2009, 10, 24, (h), (m), (s)); \
+  gchar *p = g_date_time_printf (dt, (f)); \
+  g_assert_cmpstr (p, ==, (o)); \
+  g_date_time_unref (dt); \
+  g_free (p); \
 } G_STMT_END
 
   TEST_PRINTF ("%a", "Sat");
@@ -1027,6 +1041,8 @@ test_GCalendarGregorian_is_leap_year (void)
   dt = g_date_time_new_from_date (2008, 10, 10);
   g_assert_cmpint (TRUE, ==, g_calendar_is_leap_year (cal, dt));
   g_date_time_unref (dt);
+
+  g_object_unref (cal);
 }
 
 static void
