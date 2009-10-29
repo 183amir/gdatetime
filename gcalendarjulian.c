@@ -140,7 +140,7 @@ g_calendar_julian_real_is_leap_year (GCalendar *calendar,
   gint year;
 
   year = g_calendar_get_year (calendar, datetime);
-  return ((year % 4) == (year > 0 ? 0 : 3));
+  return (ABS (year % 4) == (year > 0 ? 0 : 3));
 }
 
 static void

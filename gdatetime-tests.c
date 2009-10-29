@@ -1094,18 +1094,55 @@ test_GCalendarJulian_get_day_of_week (void)
 }
 
 static void
+test_GCalendarJulian_get_day_of_year (void)
+{
+  GCalendar *cal;
+  GDateTime *dt;
+
+  cal = g_calendar_julian_new ();
+  dt = g_date_time_new_from_date (2009, 10, 26);
+  g_assert_cmpint (g_calendar_get_day_of_year (cal, dt), ==, 299);
+  g_date_time_unref (dt);
+  g_object_unref (cal);
+}
+
+static void
 test_GCalendarJulian_get_hour (void)
 {
+  GCalendar *cal;
+  GDateTime *dt;
+
+  cal = g_calendar_julian_new ();
+  dt = g_date_time_new_full (2009, 10, 28, 21, 12, 13);
+  g_assert_cmpint (g_calendar_get_hour (cal, dt), ==, g_date_time_get_hour (dt));
+  g_date_time_unref (dt);
+  g_object_unref (cal);
 }
 
 static void
 test_GCalendarJulian_get_minute (void)
 {
+  GCalendar *cal;
+  GDateTime *dt;
+
+  cal = g_calendar_julian_new ();
+  dt = g_date_time_new_full (2009, 10, 28, 21, 12, 13);
+  g_assert_cmpint (g_calendar_get_minute (cal, dt), ==, g_date_time_get_minute (dt));
+  g_date_time_unref (dt);
+  g_object_unref (cal);
 }
 
 static void
 test_GCalendarJulian_get_second (void)
 {
+  GCalendar *cal;
+  GDateTime *dt;
+
+  cal = g_calendar_julian_new ();
+  dt = g_date_time_new_full (2009, 10, 28, 21, 12, 13);
+  g_assert_cmpint (g_calendar_get_second (cal, dt), ==, g_date_time_get_second (dt));
+  g_date_time_unref (dt);
+  g_object_unref (cal);
 }
 
 static void
@@ -1263,6 +1300,8 @@ main (gint   argc,
                    test_GCalendarJulian_get_day_of_month);
   g_test_add_func ("/GCalendarJulian/get_day_of_week",
                    test_GCalendarJulian_get_day_of_week);
+  g_test_add_func ("/GCalendarJulian/get_day_of_year",
+                   test_GCalendarJulian_get_day_of_year);
   g_test_add_func ("/GCalendarJulian/get_hour",
                    test_GCalendarJulian_get_hour);
   g_test_add_func ("/GCalendarJulian/get_minute",
