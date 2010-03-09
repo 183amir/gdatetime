@@ -1,0 +1,32 @@
+------------------------------------------------------------------------------
+           GDateTime - Date, Time, and Calendars for GLib/GObject
+------------------------------------------------------------------------------
+
+This is a set of helpers for dealing with dates and times in GLib.  The
+modules are broken into GLib and GObject where appropriate.
+
+GDateTime
+---------
+
+  * For GLib.
+  * Opaque type - Allocations occur on the heap.
+  * Immutable - Operations result in a new GDateTime*.
+  * Julian internally - Accessors are Gregorian, however.
+  * Supports +-20,000 BCE.
+
+GCalendar
+---------
+
+  * For GObject. GCalendar inherits GObject.
+  * Various calendar implementations.
+    - Gregorian
+    - Julian
+    - More are easy to implement
+  * Calendars can be coded for various locales.  That way the default calendar
+    matches the users locale.
+
+And lots, and lots of tests!
+
+--
+
+Christian Hergert <chris@dronelabs.com>
