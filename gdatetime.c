@@ -964,7 +964,7 @@ g_date_time_diff (GDateTime *begin,
  * @dt1: a #GDateTime
  * @dt2: a #GDateTime
  *
- * Checks to see if @dt1 and @dt2 are equal
+ * Checks to see if @dt1 and @dt2 are equal.
  *
  * Return value: %TRUE if @dt1 and @dt2 are equal
  *
@@ -1615,12 +1615,12 @@ g_date_time_parse_with_format (const gchar *format,
   utf8len = g_utf8_strlen (format, -1);
   memset (buffer, 0, sizeof (buffer));
 
-#define HANDLE_INT(p,w,o) G_STMT_START {                                    \
-  memset (buffer, 0, sizeof (buffer));                                      \
-  memcpy (buffer, (p), (w));                                                \
-  *(o) = atoi (buffer);                                                     \
-  input += (w);                                                             \
-} G_STMT_END
+  #define HANDLE_INT(p,w,o) G_STMT_START {                                  \
+    memset (buffer, 0, sizeof (buffer));                                    \
+    memcpy (buffer, (p), (w));                                              \
+    *(o) = atoi (buffer);                                                   \
+    input += (w);                                                           \
+  } G_STMT_END
 
   for (i = 0; i < utf8len; i++)
     {
@@ -1709,6 +1709,8 @@ g_date_time_parse_with_format (const gchar *format,
         }
     }
 
+  #undef HANDLE_INT
+
   if (month < 1 || month > 12)
     goto bad_value;
   else if (day < 1 || day > 31)
@@ -1731,12 +1733,16 @@ g_date_time_parse_with_format (const gchar *format,
   return g_date_time_new_full (year, month, day, hour, minute, second);
 
 bad_format:
+#if 0
   g_debug ("Bad Format: Expected \"%s\", got \"%s\"", tmpf, input);
+#endif
   return NULL;
 
 bad_value:
+#if 0
   g_debug ("Bad Value: Year=%d, Month=%d, Day=%d, Hour=%d, Minute=%d, Second=%d",
            year, month, day, hour, minute, second);
+#endif
   return NULL;
 }
 
