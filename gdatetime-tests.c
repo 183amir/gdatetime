@@ -823,6 +823,10 @@ test_GDateTime_get_day_of_year (void)
 static void
 test_GDateTime_printf (void)
 {
+  gchar dst[16];
+  struct tm tt;
+  time_t t;
+
 #define TEST_PRINTF(f,o) G_STMT_START { \
 GDateTime *dt = g_date_time_new_from_date (2009, 10, 24); \
   gchar *p = g_date_time_printf (dt, (f)); \
@@ -844,6 +848,20 @@ GDateTime *dt = g_date_time_new_from_date (2009, 10, 24); \
   g_date_time_unref (dt); \
   g_free (p); \
 } G_STMT_END
+
+  /*
+   * This is a little helper to make sure we can compare timezones to
+   * that of the generated timezone.
+   */
+  memset(&tt, 0, sizeof(tt));
+  t = time(NULL);
+  tt = *localtime(&t);
+  tt.tm_year = 2009 - 1900;
+  tt.tm_mon = 9; /* 0 indexed */
+  tt.tm_mday = 24;
+  t = mktime(&tt);
+  tt = *localtime(&t);
+  strftime(dst, sizeof(dst), "%Z", &tt);
 
   TEST_PRINTF ("%a", "Sat");
   TEST_PRINTF ("%A", "Saturday");
@@ -887,6 +905,7 @@ GDateTime *dt = g_date_time_new_from_date (2009, 10, 24); \
   TEST_PRINTF ("%%", "%");
   TEST_PRINTF ("%", "");
   TEST_PRINTF ("%9", NULL);
+  TEST_PRINTF ("%z", dst);
 }
 
 static void

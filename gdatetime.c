@@ -1968,7 +1968,12 @@ g_date_time_printf (GDateTime   *datetime,
                                       g_date_time_get_year (datetime));
               break;
             case 'z':
-              /* TODO: Add timezone support */
+              if (g_date_time_is_daylight_savings (datetime))
+                g_string_append_printf (outstr, "%s", datetime->tz->dst_name);
+              else if (datetime->tz)
+                g_string_append_printf (outstr, "%s", datetime->tz->std_name);
+              else
+                g_string_append_printf (outstr, "UTC");
               break;
             case '%':
               g_string_append_c (outstr, '%');
