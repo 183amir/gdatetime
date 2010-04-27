@@ -250,6 +250,23 @@ test_GDateTime_get_day_of_month (void)
 }
 
 static void
+test_GDateTime_get_dmy (void)
+{
+   GDateTime *dt;
+   time_t t;
+   struct tm tt;
+   gint d, m, y;
+
+   t = time (NULL);
+   localtime_r(&t, &tt);
+   dt = g_date_time_new_from_time_t(t);
+   g_date_time_get_dmy(dt, &d, &m, &y);
+   g_assert_cmpint(y, ==, tt.tm_year + 1900);
+   g_assert_cmpint(m, ==, tt.tm_mon + 1);
+   g_assert_cmpint(d, ==, tt.tm_mday);
+}
+
+static void
 test_GDateTime_get_hour (void)
 {
   GDateTime *dt;
@@ -1248,6 +1265,8 @@ main (gint   argc,
                    test_GDateTime_get_day_of_month);
   g_test_add_func ("/GDateTime/get_day_of_year",
                    test_GDateTime_get_day_of_year);
+  g_test_add_func ("/GDateTime/get_dmy",
+                   test_GDateTime_get_dmy);
   g_test_add_func ("/GDateTime/get_hour",
                    test_GDateTime_get_hour);
   g_test_add_func ("/GDateTime/get_julian",

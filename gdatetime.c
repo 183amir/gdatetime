@@ -419,31 +419,6 @@ g_date_time_free (GDateTime *datetime)
 }
 
 static void
-g_date_time_get_dmy (GDateTime *datetime,
-                     gint      *day,
-                     gint      *month,
-                     gint      *year)
-{
-  gint a, b, c, d, e, m;
-
-  a = datetime->julian + 32044;
-  b = ((4 * a) + 3) / 146097;
-  c = a - ((b * 146097) / 4);
-  d = ((4 * c) + 3) / 1461;
-  e = c - (1461 * d) / 4;
-  m = (5 * e + 2) / 153;
-
-  if (day)
-    *day = e - (((153 * m) + 2) / 5) + 1;
-
-  if (month)
-    *month = m + 3 - (12 * (m / 10));
-
-  if (year)
-    *year  = (b * 100) + d - 4800 + (m / 10);
-}
-
-static void
 g_date_time_get_week_number (GDateTime *datetime,
                              gint      *week_number,
                              gint      *day_of_week,
@@ -1071,6 +1046,39 @@ g_date_time_get_day_of_year (GDateTime *datetime)
 
   g_date_time_get_week_number (datetime, NULL, NULL, &doy);
   return doy;
+}
+
+/**
+ * g_date_time_get_dmy:
+ * @datetime: A #GDateTime.
+ *
+ * Retrieves the gregorian day, month, and year of a given #GDateTime.
+ *
+ * Since: 2.26
+ */
+void
+g_date_time_get_dmy (GDateTime *datetime,
+                     gint      *day,
+                     gint      *month,
+                     gint      *year)
+{
+  gint a, b, c, d, e, m;
+
+  a = datetime->julian + 32044;
+  b = ((4 * a) + 3) / 146097;
+  c = a - ((b * 146097) / 4);
+  d = ((4 * c) + 3) / 1461;
+  e = c - (1461 * d) / 4;
+  m = (5 * e + 2) / 153;
+
+  if (day)
+    *day = e - (((153 * m) + 2) / 5) + 1;
+
+  if (month)
+    *month = m + 3 - (12 * (m / 10));
+
+  if (year)
+    *year  = (b * 100) + d - 4800 + (m / 10);
 }
 
 /**
