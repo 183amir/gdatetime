@@ -1,6 +1,6 @@
 /* gdatetime.h
  *
- * Copyright (C) 2009 Christian Hergert <chris@dronelabs.com>
+ * Copyright (C) 2009-2010 Christian Hergert <chris@dronelabs.com>
  *
  * This is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
