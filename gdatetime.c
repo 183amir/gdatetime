@@ -63,7 +63,7 @@
  * Conversion to other calendars can be done using the #GObject based
  * #GCalendar.
  *
- * Since: 2.24
+ * Since: 2.26
  */
 
 #define GREGORIAN_LEAP(y)    (((y%4)==0)&&(!(((y%100)==0)&&((y%400)!=0))))
@@ -507,7 +507,7 @@ g_date_time_get_week_number (GDateTime *datetime,
  * Return value: the newly created #GDateTime which should be freed with
  *   g_date_time_unref().
  *
- * Since: 2.24
+ * Since: 2.26
  */
 GDateTime*
 g_date_time_add (GDateTime *datetime,
@@ -535,7 +535,7 @@ g_date_time_add (GDateTime *datetime,
  * Return value: the newly created #GDateTime which should be freed with
  *   g_date_time_unref().
  *
- * Since: 2.24
+ * Since: 2.26
  */
 GDateTime*
 g_date_time_add_years (GDateTime *datetime,
@@ -572,7 +572,7 @@ g_date_time_add_years (GDateTime *datetime,
  * Return value: the newly created #GDateTime which should be freed with
  *   g_date_time_unref().
  *
- * Since: 2.24
+ * Since: 2.26
  */
 GDateTime*
 g_date_time_add_months (GDateTime *datetime,
@@ -631,7 +631,7 @@ g_date_time_add_months (GDateTime *datetime,
  * Return value: the newly created #GDateTime which should be freed with
  *   g_date_time_unref().
  *
- * Since: 2.24
+ * Since: 2.26
  */
 GDateTime*
 g_date_time_add_weeks (GDateTime *datetime,
@@ -652,7 +652,7 @@ g_date_time_add_weeks (GDateTime *datetime,
  * Return value: the newly created #GDateTime which should be freed with
  *   g_date_time_unref().
  *
- * Since: 2.24
+ * Since: 2.26
  */
 GDateTime*
 g_date_time_add_days (GDateTime *datetime,
@@ -679,7 +679,7 @@ g_date_time_add_days (GDateTime *datetime,
  * Return value: the newly created #GDateTime which should be freed with
  *   g_date_time_unref().
  *
- * Since: 2.24
+ * Since: 2.26
  */
 GDateTime*
 g_date_time_add_hours (GDateTime *datetime,
@@ -708,7 +708,7 @@ g_date_time_add_hours (GDateTime *datetime,
  * Return value: the newly created #GDateTime which should be freed with
  *   g_date_time_unref().
  *
- * Since: 2.24
+ * Since: 2.26
  */
 GDateTime*
 g_date_time_add_seconds (GDateTime *datetime,
@@ -737,7 +737,7 @@ g_date_time_add_seconds (GDateTime *datetime,
  * Return value: the newly created #GDateTime which should be freed with
  *   g_date_time_unref().
  *
- * Since: 2.24
+ * Since: 2.26
  */
 GDateTime*
 g_date_time_add_milliseconds (GDateTime *datetime,
@@ -765,7 +765,7 @@ g_date_time_add_milliseconds (GDateTime *datetime,
  * Return value: the newly created #GDateTime which should be freed with
  * g_date_time_unref().
  *
- * Since: 2.24
+ * Since: 2.26
  */
 GDateTime*
 g_date_time_add_minutes (GDateTime *datetime,
@@ -797,7 +797,7 @@ g_date_time_add_minutes (GDateTime *datetime,
  * Return value: the newly created #GDateTime that should be freed with
  *   g_date_time_unref().
  *
- * Since: 2.24
+ * Since: 2.26
  */
 GDateTime*
 g_date_time_add_full (GDateTime      *datetime,
@@ -848,7 +848,7 @@ g_date_time_add_full (GDateTime      *datetime,
  * Return value: 0 for equal, less than zero if dt1 is less than dt2, greater
  *   than zero if dt2 is greator than dt1.
  *
- * Since: 2.24
+ * Since: 2.26
  */
 gint
 g_date_time_compare (gconstpointer dt1,
@@ -880,7 +880,7 @@ g_date_time_compare (gconstpointer dt1,
  * Return value: the newly created #GDateTime which should be freed with
  *   g_date_time_unref().
  *
- * Since: 2.24
+ * Since: 2.26
  */
 GDateTime*
 g_date_time_copy (GDateTime *datetime)
@@ -907,7 +907,7 @@ g_date_time_copy (GDateTime *datetime)
  * Return value: the newly created #GDateTime which should be freed with
  *   g_date_time_unref().
  *
- * Since: 2.24
+ * Since: 2.26
  */
 GDateTime*
 g_date_time_date (GDateTime *datetime)
@@ -932,7 +932,7 @@ g_date_time_date (GDateTime *datetime)
  * exact precision cannot always be known due to incomplete historic
  * information, a best attempt is made to calculate the difference.
  *
- * Since: 2.24
+ * Since: 2.26
  */
 void
 g_date_time_diff (GDateTime *begin,
@@ -968,7 +968,7 @@ g_date_time_diff (GDateTime *begin,
  *
  * Return value: %TRUE if @dt1 and @dt2 are equal
  *
- * Since: 2.24
+ * Since: 2.26
  */
 gboolean
 g_date_time_equal (gconstpointer dt1,
@@ -995,7 +995,7 @@ g_date_time_equal (gconstpointer dt1,
  *
  * Return value: the day of the week
  *
- * Since: 2.24
+ * Since: 2.26
  */
 gint
 g_date_time_get_day_of_week (GDateTime *datetime)
@@ -1029,7 +1029,7 @@ g_date_time_get_day_of_week (GDateTime *datetime)
  *
  * Return value: the day of the month
  *
- * Since: 2.24
+ * Since: 2.26
  */
 gint
 g_date_time_get_day_of_month (GDateTime *datetime)
@@ -1064,7 +1064,7 @@ g_date_time_get_day_of_month (GDateTime *datetime)
  *
  * Return value: the day of the year
  *
- * Since: 2.24
+ * Since: 2.26
  */
 gint
 g_date_time_get_day_of_year (GDateTime *datetime)
@@ -1086,7 +1086,7 @@ g_date_time_get_day_of_year (GDateTime *datetime)
  *
  * Return value: the hour of the day
  *
- * Since: 2.24
+ * Since: 2.26
  */
 gint
 g_date_time_get_hour (GDateTime *datetime)
@@ -1107,7 +1107,7 @@ g_date_time_get_hour (GDateTime *datetime)
  * Retrieves the julian period, day, hour, mintute, and second which @datetime
  * represents in the Julian calendar.
  *
- * Since: 2.24
+ * Since: 2.26
  */
 void
 g_date_time_get_julian (GDateTime *datetime,
@@ -1144,7 +1144,7 @@ g_date_time_get_julian (GDateTime *datetime,
  *
  * Return value: the microsecond of the second
  *
- * Since: 2.24
+ * Since: 2.26
  */
 gint
 g_date_time_get_microsecond (GDateTime *datetime)
@@ -1162,7 +1162,7 @@ g_date_time_get_microsecond (GDateTime *datetime)
  *
  * Return value: the millisecond of the second
  *
- * Since: 2.24
+ * Since: 2.26
  */
 gint
 g_date_time_get_millisecond (GDateTime *datetime)
@@ -1180,7 +1180,7 @@ g_date_time_get_millisecond (GDateTime *datetime)
  *
  * Return value: the minute of the hour
  *
- * Since: 2.24
+ * Since: 2.26
  */
 gint
 g_date_time_get_minute (GDateTime *datetime)
@@ -1198,7 +1198,7 @@ g_date_time_get_minute (GDateTime *datetime)
  *
  * Return value: the month represented by @datetime
  *
- * Since: 2.24
+ * Since: 2.26
  */
 gint
 g_date_time_get_month (GDateTime *datetime)
@@ -1221,7 +1221,7 @@ g_date_time_get_month (GDateTime *datetime)
  *
  * Return value: the second represented by @datetime
  *
- * Since: 2.24
+ * Since: 2.26
  */
 gint
 g_date_time_get_second (GDateTime *datetime)
@@ -1238,7 +1238,7 @@ g_date_time_get_second (GDateTime *datetime)
  * Retrieves the offset from UTC that the local timezone specified by @datetime
  * represents.  If @datetime represents UTC time, then the offset is zero.
  *
- * Since: 2.24
+ * Since: 2.26
  */
 void
 g_date_time_get_utc_offset (GDateTime *datetime,
@@ -1268,7 +1268,7 @@ g_date_time_get_utc_offset (GDateTime *datetime,
  *
  * Return value: the year of the gregorian calendar
  *
- * Since: 2.24
+ * Since: 2.26
  */
 gint
 g_date_time_get_year (GDateTime *datetime)
@@ -1290,7 +1290,7 @@ g_date_time_get_year (GDateTime *datetime)
  *
  * Return value: a #guint containing the hash
  *
- * Since: 2.24
+ * Since: 2.26
  */
 guint
 g_date_time_hash (gconstpointer datetime)
@@ -1309,7 +1309,7 @@ g_date_time_hash (gconstpointer datetime)
  *
  * Return value: the newly allocated string that should be freed using g_free().
  *
- * Since: 2.24
+ * Since: 2.26
  */
 gchar*
 g_date_time_format_for_display (GDateTime *datetime)
@@ -1345,7 +1345,7 @@ g_date_time_format_for_display (GDateTime *datetime)
  *
  * Return value: %TRUE if @datetime is a leap year.
  *
- * Since: 2.24
+ * Since: 2.26
  */
 gboolean
 g_date_time_is_leap_year (GDateTime *datetime)
@@ -1367,7 +1367,7 @@ g_date_time_is_leap_year (GDateTime *datetime)
  *
  * Return value: %TRUE if @datetime falls within daylight savings time.
  *
- * Since: 2.24
+ * Since: 2.26
  */
 gboolean
 g_date_time_is_daylight_savings (GDateTime *datetime)
@@ -1410,7 +1410,7 @@ g_date_time_is_daylight_savings (GDateTime *datetime)
  * Return value: the newly created #GDateTime or %NULL if it is outside of
  *   the representable range.
  *
- * Since: 2.24
+ * Since: 2.26
  */
 GDateTime*
 g_date_time_new_from_date (gint year,
@@ -1440,7 +1440,7 @@ g_date_time_new_from_date (gint year,
  *
  * Return value: the newly created #GDateTime
  *
- * Since: 2.24
+ * Since: 2.26
  */
 GDateTime*
 g_date_time_new_from_time_t (time_t t)
@@ -1466,7 +1466,7 @@ g_date_time_new_from_time_t (time_t t)
  *
  * Return value: the newly created #GDateTime
  *
- * Since: 2.24
+ * Since: 2.26
  */
 GDateTime*
 g_date_time_new_from_timeval (GTimeVal *tv)
@@ -1497,7 +1497,7 @@ g_date_time_new_from_timeval (GTimeVal *tv)
  *
  * Return value: the newly created #GDateTime
  *
- * Since: 2.24
+ * Since: 2.26
  */
 GDateTime*
 g_date_time_new_full (gint year,
@@ -1532,7 +1532,7 @@ g_date_time_new_full (gint year,
  * Return value: the newly created #GDateTime which should be freed with
  *   g_date_time_unref().
  *
- * Since: 2.24
+ * Since: 2.26
  */
 GDateTime*
 g_date_time_now (void)
@@ -1552,7 +1552,7 @@ g_date_time_now (void)
  * Return value: the newly created #GDateTime which should be freed with
  *   g_date_time_unref() or %NULL upon error.
  *
- * Since: 2.24
+ * Since: 2.26
  */
 GDateTime*
 g_date_time_parse (const gchar *input)
@@ -1586,7 +1586,7 @@ g_date_time_parse (const gchar *input)
  * Return value: the newly created #GDateTime which should be freed with
  *   g_date_time_unref() or %NULL upon error.
  *
- * Since: 2.24
+ * Since: 2.26
  */
 GDateTime*
 g_date_time_parse_with_format (const gchar *format,
@@ -1800,7 +1800,7 @@ bad_value:
  *   %NULL in the case that there was an error.  The string should be freed
  *   with g_free().
  *
- * Since: 2.24
+ * Since: 2.26
  */
 gchar*
 g_date_time_printf (GDateTime   *datetime,
@@ -2009,7 +2009,7 @@ bad_format:
  *
  * Return value: the reference @datetime
  *
- * Since: 2.24
+ * Since: 2.26
  */
 GDateTime*
 g_date_time_ref (GDateTime *datetime)
@@ -2028,7 +2028,7 @@ g_date_time_ref (GDateTime *datetime)
  *
  * Return value: the newly created #GDateTime
  *
- * Since: 2.24
+ * Since: 2.26
  */
 GDateTime*
 g_date_time_to_local (GDateTime *datetime)
@@ -2067,7 +2067,7 @@ g_date_time_to_local (GDateTime *datetime)
  *
  * Return value: @datetime as a #time_t
  *
- * Since: 2.24
+ * Since: 2.26
  */
 time_t
 g_date_time_to_time_t (GDateTime *datetime)
@@ -2107,7 +2107,7 @@ g_date_time_to_time_t (GDateTime *datetime)
  *
  * Converts @datetime into a #GTimeVal and stores the result into @timeval.
  *
- * Since: 2.24
+ * Since: 2.26
  */
 void
 g_date_time_to_timeval (GDateTime *datetime,
@@ -2135,7 +2135,7 @@ g_date_time_to_timeval (GDateTime *datetime,
  * Return value: the newly created #GDateTime which should be freed with
  *   g_date_time_unref().
  *
- * Since: 2.24
+ * Since: 2.26
  */
 GDateTime*
 g_date_time_to_utc (GDateTime *datetime)
@@ -2161,7 +2161,7 @@ g_date_time_to_utc (GDateTime *datetime)
  * Return value: the newly created #GDateTime which should be freed with
  *   g_date_time_unref().
  *
- * Since: 2.24
+ * Since: 2.26
  */
 GDateTime*
 g_date_time_today (void)
@@ -2181,7 +2181,7 @@ g_date_time_today (void)
  * Atomically decrements the reference count of @datetime by one.  When the
  * reference count reaches zero, the structure is freed.
  *
- * Since: 2.24
+ * Since: 2.26
  */
 void
 g_date_time_unref (GDateTime *datetime)
@@ -2202,7 +2202,7 @@ g_date_time_unref (GDateTime *datetime)
  * Return value: the newly created #GDateTime which should be freed with
  *   g_date_time_unref().
  *
- * Since: 2.24
+ * Since: 2.26
  */
 GDateTime*
 g_date_time_utc_now (void)
