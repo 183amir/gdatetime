@@ -228,7 +228,7 @@ g_time_zone_get_cache (void)
     {
       GHashTable *h;
 
-      h = g_hash_table_new (g_int64_hash, g_int64_equal);
+      h = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, NULL);
       g_once_init_leave ((gsize*)&hash, (gsize)h);
     }
 
@@ -277,14 +277,13 @@ g_time_zone_new_from_year (gint year)
   GTimeZone            *tz = NULL;
   gboolean              limited     = FALSE,
                         is_daylight = FALSE;
-  gint64                key,
-                       *mkey,
-                        julian;
+  gint64                julian;
   gint                  gmtoff,
                         day;
   time_t                t;
   struct tm             tt, start;
-  gchar                 tzone [64];
+  gchar                 tzone [64],
+                        key [32];
 
   if ((year < 1970) || (year > 2037))
     {
@@ -300,8 +299,7 @@ g_time_zone_new_from_year (gint year)
   t = mktime (&start);
 
   gmtoff = gmt_offset (&start, t);
-  key = year;
-  key = (key << 32) | gmtoff;
+  g_snprintf(key, sizeof(key), "%d|%d", gmtoff, year);
 
   hash = g_time_zone_get_cache ();
 
@@ -316,8 +314,6 @@ g_time_zone_new_from_year (gint year)
         {
           tz = g_slice_new0 (GTimeZone);
           tz->year = year;
-          mkey = g_malloc (sizeof (gint64));
-          *mkey = key;
 
           if (limited)
             {
@@ -397,7 +393,7 @@ g_time_zone_new_from_year (gint year)
             }
 
 finished:
-          g_hash_table_insert (hash, mkey, tz);
+          g_hash_table_insert (hash, g_strdup(key), tz);
           g_static_rw_lock_writer_unlock (&hash_lock);
         }
     }
