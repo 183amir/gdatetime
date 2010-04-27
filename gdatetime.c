@@ -1051,6 +1051,9 @@ g_date_time_get_day_of_year (GDateTime *datetime)
 /**
  * g_date_time_get_dmy:
  * @datetime: A #GDateTime.
+ * @day: A location for the day of the month, or %NULL.
+ * @month: A location for the monty of the year, or %NULL.
+ * @year: A location for the gregorian year, or %NULL.
  *
  * Retrieves the gregorian day, month, and year of a given #GDateTime.
  *
