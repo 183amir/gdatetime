@@ -101,18 +101,21 @@ g_calendar_gregorian_real_is_leap_year (GCalendar *calendar, /* IN */
 static void
 g_calendar_gregorian_class_init (GCalendarGregorianClass *klass) /* IN */
 {
-  GCalendarClass *calendar_class;
+  GCalendarClass *calendar_class = G_CALENDAR_CLASS(klass);
 
-  calendar_class                   = G_CALENDAR_CLASS (klass);
-  calendar_class->get_year         = g_calendar_gregorian_real_get_year;
-  calendar_class->get_month        = g_calendar_gregorian_real_get_month;
-  calendar_class->get_day_of_month = g_calendar_gregorian_real_get_day_of_month;
-  calendar_class->get_day_of_week  = g_calendar_gregorian_real_get_day_of_week;
-  calendar_class->get_day_of_year  = g_calendar_gregorian_real_get_day_of_year;
-  calendar_class->get_hour         = g_calendar_gregorian_real_get_hour;
-  calendar_class->get_minute       = g_calendar_gregorian_real_get_minute;
-  calendar_class->get_second       = g_calendar_gregorian_real_get_second;
-  calendar_class->is_leap_year     = g_calendar_gregorian_real_is_leap_year;
+  #define OVERRIDE(_n) calendar_class->_n = g_calendar_gregorian_real_##_n
+
+  OVERRIDE(get_year);
+  OVERRIDE(get_month);
+  OVERRIDE(get_day_of_month);
+  OVERRIDE(get_day_of_week);
+  OVERRIDE(get_day_of_year);
+  OVERRIDE(get_hour);
+  OVERRIDE(get_minute);
+  OVERRIDE(get_second);
+  OVERRIDE(is_leap_year);
+
+  #undef OVERRIDE
 }
 
 static void
