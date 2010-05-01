@@ -176,7 +176,7 @@ g_calendar_julian_init (GCalendarJulian *self) /* IN */
  * Return value: the newly created #GCalendarJulian which should be freed with
  *   g_object_unref().
  *
- * Since: 2.24
+ * Since: 2.26
  */
 GCalendar*
 g_calendar_julian_new (void)

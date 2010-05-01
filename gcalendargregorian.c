@@ -131,7 +131,7 @@ g_calendar_gregorian_init (GCalendarGregorian *self) /* IN */
  * Return value: the newly created #GCalendarGregorian which should be freed with
  *   g_object_unref().
  *
- * Since: 2.24
+ * Since: 2.26
  */
 GCalendar*
 g_calendar_gregorian_new (void)
