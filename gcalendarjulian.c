@@ -31,10 +31,10 @@
 G_DEFINE_TYPE (GCalendarJulian, g_calendar_julian, G_TYPE_CALENDAR)
 
 static void
-get_julian_dmy (GDateTime *datetime,
-		gint      *day,
-		gint      *month,
-		gint      *year)
+get_julian_dmy (GDateTime *datetime, /* IN */
+                gint      *day,      /* OUT */
+                gint      *month,    /* OUT */
+                gint      *year)     /* OUT */
 {
   gint b, c, d, e, m, jd;
 

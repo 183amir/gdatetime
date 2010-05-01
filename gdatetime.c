@@ -392,7 +392,7 @@ g_time_zone_new_from_year (gint year)
                 }
             }
 
-finished:
+        finished:
           g_hash_table_insert (hash, g_strdup(key), tz);
           g_static_rw_lock_writer_unlock (&hash_lock);
         }
