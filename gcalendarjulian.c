@@ -181,5 +181,5 @@ g_calendar_julian_init (GCalendarJulian *self) /* IN */
 GCalendar*
 g_calendar_julian_new (void)
 {
-  return g_object_new (G_TYPE_CALENDAR_JULIAN, 0);
+  return g_object_new (G_TYPE_CALENDAR_JULIAN, NULL);
 }

@@ -136,5 +136,5 @@ g_calendar_gregorian_init (GCalendarGregorian *self) /* IN */
 GCalendar*
 g_calendar_gregorian_new (void)
 {
-  return g_object_new (G_TYPE_CALENDAR_GREGORIAN, 0);
+  return g_object_new (G_TYPE_CALENDAR_GREGORIAN, NULL);
 }
