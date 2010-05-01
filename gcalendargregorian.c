@@ -36,70 +36,70 @@
 G_DEFINE_TYPE (GCalendarGregorian, g_calendar_gregorian, G_TYPE_CALENDAR)
 
 static gint
-g_calendar_gregorian_real_get_year (GCalendar *calendar,
-                                    GDateTime *datetime)
+g_calendar_gregorian_real_get_year (GCalendar *calendar, /* IN */
+                                    GDateTime *datetime) /* IN */
 {
   return g_date_time_get_year (datetime);
 }
 
 static gint
-g_calendar_gregorian_real_get_month (GCalendar *calendar,
-                                     GDateTime *datetime)
+g_calendar_gregorian_real_get_month (GCalendar *calendar, /* IN */
+                                     GDateTime *datetime) /* IN */
 {
   return g_date_time_get_month (datetime);
 }
 
 static gint
-g_calendar_gregorian_real_get_day_of_month (GCalendar *calendar,
-                                            GDateTime *datetime)
+g_calendar_gregorian_real_get_day_of_month (GCalendar *calendar, /* IN */
+                                            GDateTime *datetime) /* IN */
 {
   return g_date_time_get_day_of_month (datetime);
 }
 
 gint
-g_calendar_gregorian_real_get_day_of_week (GCalendar *calendar,
-                                           GDateTime *datetime)
+g_calendar_gregorian_real_get_day_of_week (GCalendar *calendar, /* IN */
+                                           GDateTime *datetime) /* IN */
 {
   return g_date_time_get_day_of_week (datetime);
 }
 
 static gint
-g_calendar_gregorian_real_get_day_of_year (GCalendar *calendar,
-                                           GDateTime *datetime)
+g_calendar_gregorian_real_get_day_of_year (GCalendar *calendar, /* IN */
+                                           GDateTime *datetime) /* IN */
 {
   return g_date_time_get_day_of_year (datetime);
 }
 
 static gint
-g_calendar_gregorian_real_get_hour (GCalendar *calendar,
-                                    GDateTime *datetime)
+g_calendar_gregorian_real_get_hour (GCalendar *calendar, /* IN */
+                                    GDateTime *datetime) /* IN */
 {
   return g_date_time_get_hour (datetime);
 }
 
 static gint
-g_calendar_gregorian_real_get_minute (GCalendar *calendar,
-                                      GDateTime *datetime)
+g_calendar_gregorian_real_get_minute (GCalendar *calendar, /* IN */
+                                      GDateTime *datetime) /* IN */
 {
   return g_date_time_get_minute (datetime);
 }
 
 static gint
-g_calendar_gregorian_real_get_second (GCalendar *calendar,
-                                      GDateTime *datetime)
+g_calendar_gregorian_real_get_second (GCalendar *calendar, /* IN */
+                                      GDateTime *datetime) /* IN */
 {
   return g_date_time_get_second (datetime);
 }
 
 static gboolean
-g_calendar_gregorian_real_is_leap_year (GCalendar *calendar,
-                                        GDateTime *datetime)
+g_calendar_gregorian_real_is_leap_year (GCalendar *calendar, /* IN */
+                                        GDateTime *datetime) /* IN */
 {
   return g_date_time_is_leap_year (datetime);
 }
 
 static void
-g_calendar_gregorian_class_init (GCalendarGregorianClass *klass)
+g_calendar_gregorian_class_init (GCalendarGregorianClass *klass) /* IN */
 {
   GCalendarClass *calendar_class;
 
@@ -116,7 +116,7 @@ g_calendar_gregorian_class_init (GCalendarGregorianClass *klass)
 }
 
 static void
-g_calendar_gregorian_init (GCalendarGregorian *self)
+g_calendar_gregorian_init (GCalendarGregorian *self) /* IN */
 {
 }
 

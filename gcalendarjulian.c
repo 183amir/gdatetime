@@ -57,8 +57,8 @@ get_julian_dmy (GDateTime *datetime,
 }
 
 static gint
-g_calendar_julian_real_get_year (GCalendar *calendar,
-                                 GDateTime *datetime)
+g_calendar_julian_real_get_year (GCalendar *calendar, /* IN */
+                                 GDateTime *datetime) /* IN */
 {
   gint year;
   get_julian_dmy (datetime, NULL, NULL, &year);
@@ -66,8 +66,8 @@ g_calendar_julian_real_get_year (GCalendar *calendar,
 }
 
 static gint
-g_calendar_julian_real_get_month (GCalendar *calendar,
-                                  GDateTime *datetime)
+g_calendar_julian_real_get_month (GCalendar *calendar, /* IN */
+                                  GDateTime *datetime) /* IN */
 {
   gint month;
   get_julian_dmy (datetime, NULL, &month, NULL);
@@ -75,8 +75,8 @@ g_calendar_julian_real_get_month (GCalendar *calendar,
 }
 
 static gint
-g_calendar_julian_real_get_day_of_month (GCalendar *calendar,
-                                         GDateTime *datetime)
+g_calendar_julian_real_get_day_of_month (GCalendar *calendar, /* IN */
+                                         GDateTime *datetime) /* IN */
 {
   gint day;
   get_julian_dmy (datetime, &day, NULL, NULL);
@@ -84,8 +84,8 @@ g_calendar_julian_real_get_day_of_month (GCalendar *calendar,
 }
 
 static gint
-g_calendar_julian_real_get_day_of_week (GCalendar *calendar,
-                                        GDateTime *datetime)
+g_calendar_julian_real_get_day_of_week (GCalendar *calendar, /* IN */
+                                        GDateTime *datetime) /* IN */
 {
   gint year,
        month,
@@ -106,36 +106,36 @@ g_calendar_julian_real_get_day_of_week (GCalendar *calendar,
 }
 
 static gint
-g_calendar_julian_real_get_day_of_year (GCalendar *calendar,
-                                        GDateTime *datetime)
+g_calendar_julian_real_get_day_of_year (GCalendar *calendar, /* IN */
+                                        GDateTime *datetime) /* IN */
 {
   return g_date_time_get_day_of_year (datetime);
 }
 
 static gint
-g_calendar_julian_real_get_hour (GCalendar *calendar,
-                                 GDateTime *datetime)
+g_calendar_julian_real_get_hour (GCalendar *calendar, /* IN */
+                                 GDateTime *datetime) /* IN */
 {
   return g_date_time_get_hour (datetime);
 }
 
 static gint
-g_calendar_julian_real_get_minute (GCalendar *calendar,
-                                   GDateTime *datetime)
+g_calendar_julian_real_get_minute (GCalendar *calendar, /* IN */
+                                   GDateTime *datetime) /* IN */
 {
   return g_date_time_get_minute (datetime);
 }
 
 static gint
-g_calendar_julian_real_get_second (GCalendar *calendar,
-                                   GDateTime *datetime)
+g_calendar_julian_real_get_second (GCalendar *calendar, /* IN */
+                                   GDateTime *datetime) /* IN */
 {
   return g_date_time_get_second (datetime);
 }
 
 static gboolean
-g_calendar_julian_real_is_leap_year (GCalendar *calendar,
-                                     GDateTime *datetime)
+g_calendar_julian_real_is_leap_year (GCalendar *calendar, /* IN */
+                                     GDateTime *datetime) /* IN */
 {
   gint year;
 
@@ -144,7 +144,7 @@ g_calendar_julian_real_is_leap_year (GCalendar *calendar,
 }
 
 static void
-g_calendar_julian_class_init (GCalendarJulianClass *klass)
+g_calendar_julian_class_init (GCalendarJulianClass *klass) /* IN */
 {
   GCalendarClass *calendar_class;
 
@@ -161,7 +161,7 @@ g_calendar_julian_class_init (GCalendarJulianClass *klass)
 }
 
 static void
-g_calendar_julian_init (GCalendarJulian *self)
+g_calendar_julian_init (GCalendarJulian *self) /* IN */
 {
 }
 

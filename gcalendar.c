@@ -58,8 +58,8 @@ g_calendar_init (GCalendar *calendar)
  * Since: 2.24
  */
 gint
-g_calendar_get_year (GCalendar *calendar,
-                     GDateTime *datetime)
+g_calendar_get_year (GCalendar *calendar, /* IN */
+                     GDateTime *datetime) /* IN */
 {
   g_return_val_if_fail (G_IS_CALENDAR (calendar), 0);
   return G_CALENDAR_GET_CLASS (calendar)->get_year (calendar, datetime);
@@ -77,8 +77,8 @@ g_calendar_get_year (GCalendar *calendar,
  * Since: 2.24
  */
 gint
-g_calendar_get_month (GCalendar *calendar,
-                      GDateTime *datetime)
+g_calendar_get_month (GCalendar *calendar, /* IN */
+                      GDateTime *datetime) /* IN */
 {
   g_return_val_if_fail (G_IS_CALENDAR (calendar), 0);
   return G_CALENDAR_GET_CLASS (calendar)->get_month (calendar, datetime);
@@ -97,8 +97,8 @@ g_calendar_get_month (GCalendar *calendar,
  * Since: 2.24
  */
 gint
-g_calendar_get_day_of_month (GCalendar *calendar,
-                             GDateTime *datetime)
+g_calendar_get_day_of_month (GCalendar *calendar, /* IN */
+                             GDateTime *datetime) /* IN */
 {
   g_return_val_if_fail (G_IS_CALENDAR (calendar), 0);
   return G_CALENDAR_GET_CLASS (calendar)->get_day_of_month (calendar, datetime);
@@ -117,8 +117,8 @@ g_calendar_get_day_of_month (GCalendar *calendar,
  * Since: 2.24
  */
 gint
-g_calendar_get_day_of_week (GCalendar *calendar,
-                            GDateTime *datetime)
+g_calendar_get_day_of_week (GCalendar *calendar, /* IN */
+                            GDateTime *datetime) /* IN */
 {
   g_return_val_if_fail (G_IS_CALENDAR (calendar), 0);
   return G_CALENDAR_GET_CLASS (calendar)->get_day_of_week (calendar, datetime);
@@ -137,8 +137,8 @@ g_calendar_get_day_of_week (GCalendar *calendar,
  * Since: 2.24
  */
 gint
-g_calendar_get_day_of_year (GCalendar *calendar,
-                            GDateTime *datetime)
+g_calendar_get_day_of_year (GCalendar *calendar, /* IN */
+                            GDateTime *datetime) /* IN */
 {
   g_return_val_if_fail (G_IS_CALENDAR (calendar), 0);
   return G_CALENDAR_GET_CLASS (calendar)->get_day_of_year (calendar, datetime);
@@ -157,8 +157,8 @@ g_calendar_get_day_of_year (GCalendar *calendar,
  * Since: 2.24
  */
 gint
-g_calendar_get_hour (GCalendar *calendar,
-                     GDateTime *datetime)
+g_calendar_get_hour (GCalendar *calendar, /* IN */
+                     GDateTime *datetime) /* IN */
 {
   g_return_val_if_fail (G_IS_CALENDAR (calendar), 0);
   return G_CALENDAR_GET_CLASS (calendar)->get_hour (calendar, datetime);
@@ -177,8 +177,8 @@ g_calendar_get_hour (GCalendar *calendar,
  * Since: 2.24
  */
 gint
-g_calendar_get_minute (GCalendar *calendar,
-                       GDateTime *datetime)
+g_calendar_get_minute (GCalendar *calendar, /* IN */
+                       GDateTime *datetime) /* IN */
 {
   g_return_val_if_fail (G_IS_CALENDAR (calendar), 0);
   return G_CALENDAR_GET_CLASS (calendar)->get_minute (calendar, datetime);
@@ -197,8 +197,8 @@ g_calendar_get_minute (GCalendar *calendar,
  * Since: 2.24
  */
 gint
-g_calendar_get_second (GCalendar *calendar,
-                       GDateTime *datetime)
+g_calendar_get_second (GCalendar *calendar, /* IN */
+                       GDateTime *datetime) /* IN */
 {
   g_return_val_if_fail (G_IS_CALENDAR (calendar), 0);
   return G_CALENDAR_GET_CLASS (calendar)->get_second (calendar, datetime);
@@ -245,8 +245,8 @@ g_calendar_from_locale (void)
  * Since: 2.24
  */
 gboolean
-g_calendar_is_leap_year (GCalendar *calendar,
-                         GDateTime *datetime)
+g_calendar_is_leap_year (GCalendar *calendar, /* IN */
+                         GDateTime *datetime) /* IN */
 {
   g_return_val_if_fail (G_IS_CALENDAR (calendar), 0);
   return G_CALENDAR_GET_CLASS (calendar)->is_leap_year (calendar, datetime);

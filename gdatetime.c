@@ -481,8 +481,8 @@ g_date_time_get_week_number (GDateTime *datetime,
  * Since: 2.26
  */
 GDateTime*
-g_date_time_add (GDateTime *datetime,
-                 GTimeSpan *timespan)
+g_date_time_add (GDateTime *datetime, /* IN */
+                 GTimeSpan *timespan) /* IN */
 {
   GDateTime *dt;
 
@@ -509,8 +509,8 @@ g_date_time_add (GDateTime *datetime,
  * Since: 2.26
  */
 GDateTime*
-g_date_time_add_years (GDateTime *datetime,
-                       gint       years)
+g_date_time_add_years (GDateTime *datetime, /* IN */
+                       gint       years)    /* IN */
 {
   GDateTime *dt;
   gint       day;
@@ -546,8 +546,8 @@ g_date_time_add_years (GDateTime *datetime,
  * Since: 2.26
  */
 GDateTime*
-g_date_time_add_months (GDateTime *datetime,
-                        gint       months)
+g_date_time_add_months (GDateTime *datetime, /* IN */
+                        gint       months)   /* IN */
 {
   GDateTime     *dt;
   gint           year,
@@ -605,8 +605,8 @@ g_date_time_add_months (GDateTime *datetime,
  * Since: 2.26
  */
 GDateTime*
-g_date_time_add_weeks (GDateTime *datetime,
-                       gint       weeks)
+g_date_time_add_weeks (GDateTime *datetime, /* IN */
+                       gint       weeks)    /* IN */
 {
   g_return_val_if_fail (datetime != NULL, NULL);
   return g_date_time_add_days (datetime, weeks * 7);
@@ -626,8 +626,8 @@ g_date_time_add_weeks (GDateTime *datetime,
  * Since: 2.26
  */
 GDateTime*
-g_date_time_add_days (GDateTime *datetime,
-                      gint       days)
+g_date_time_add_days (GDateTime *datetime, /* IN */
+                      gint       days)     /* IN */
 {
   GDateTime *dt;
 
@@ -653,8 +653,8 @@ g_date_time_add_days (GDateTime *datetime,
  * Since: 2.26
  */
 GDateTime*
-g_date_time_add_hours (GDateTime *datetime,
-                       gint       hours)
+g_date_time_add_hours (GDateTime *datetime, /* IN */
+                       gint       hours)    /* IN */
 {
   GDateTime *dt;
   gint64     usec;
@@ -682,8 +682,8 @@ g_date_time_add_hours (GDateTime *datetime,
  * Since: 2.26
  */
 GDateTime*
-g_date_time_add_seconds (GDateTime *datetime,
-                         gint       seconds)
+g_date_time_add_seconds (GDateTime *datetime, /* IN */
+                         gint       seconds)  /* IN */
 {
   GDateTime *dt;
   gint64     usec;
@@ -711,8 +711,8 @@ g_date_time_add_seconds (GDateTime *datetime,
  * Since: 2.26
  */
 GDateTime*
-g_date_time_add_milliseconds (GDateTime *datetime,
-                              gint       milliseconds)
+g_date_time_add_milliseconds (GDateTime *datetime,     /* IN */
+                              gint       milliseconds) /* IN */
 {
   GDateTime *dt;
   guint64    usec;
@@ -739,8 +739,8 @@ g_date_time_add_milliseconds (GDateTime *datetime,
  * Since: 2.26
  */
 GDateTime*
-g_date_time_add_minutes (GDateTime *datetime,
-                         gint       minutes)
+g_date_time_add_minutes (GDateTime *datetime, /* IN */
+                         gint       minutes)  /* IN */
 {
   GDateTime *dt;
 
@@ -771,13 +771,13 @@ g_date_time_add_minutes (GDateTime *datetime,
  * Since: 2.26
  */
 GDateTime*
-g_date_time_add_full (GDateTime      *datetime,
-                      gint            years,
-                      gint            months,
-                      gint            days,
-                      gint            hours,
-                      gint            minutes,
-                      gint            seconds)
+g_date_time_add_full (GDateTime *datetime, /* IN */
+                      gint       years,    /* IN */
+                      gint       months,   /* IN */
+                      gint       days,     /* IN */
+                      gint       hours,    /* IN */
+                      gint       minutes,  /* IN */
+                      gint       seconds)  /* IN */
 {
   GDateTime *tmp, *dt;
 
@@ -822,8 +822,8 @@ g_date_time_add_full (GDateTime      *datetime,
  * Since: 2.26
  */
 gint
-g_date_time_compare (gconstpointer dt1,
-                     gconstpointer dt2)
+g_date_time_compare (gconstpointer dt1, /* IN */
+                     gconstpointer dt2) /* IN */
 {
   const GDateTime *a, *b;
 
@@ -854,7 +854,7 @@ g_date_time_compare (gconstpointer dt1,
  * Since: 2.26
  */
 GDateTime*
-g_date_time_copy (GDateTime *datetime)
+g_date_time_copy (GDateTime *datetime) /* IN */
 {
   GDateTime *copied;
 
@@ -881,7 +881,7 @@ g_date_time_copy (GDateTime *datetime)
  * Since: 2.26
  */
 GDateTime*
-g_date_time_date (GDateTime *datetime)
+g_date_time_date (GDateTime *datetime) /* IN */
 {
   GDateTime *date;
 
@@ -906,9 +906,9 @@ g_date_time_date (GDateTime *datetime)
  * Since: 2.26
  */
 void
-g_date_time_diff (GDateTime *begin,
-                  GDateTime *end,
-                  GTimeSpan *timespan)
+g_date_time_diff (GDateTime *begin,    /* IN */
+                  GDateTime *end,      /* IN */
+                  GTimeSpan *timespan) /* OUT */
 {
   gint64 usec;
   gint   days;
@@ -942,8 +942,8 @@ g_date_time_diff (GDateTime *begin,
  * Since: 2.26
  */
 gboolean
-g_date_time_equal (gconstpointer dt1,
-                   gconstpointer dt2)
+g_date_time_equal (gconstpointer dt1, /* IN */
+                   gconstpointer dt2) /* IN */
 {
   const GDateTime *a, *b;
 
@@ -969,7 +969,7 @@ g_date_time_equal (gconstpointer dt1,
  * Since: 2.26
  */
 gint
-g_date_time_get_day_of_week (GDateTime *datetime)
+g_date_time_get_day_of_week (GDateTime *datetime) /* IN */
 {
   gint a, y, m,
        year  = 0,
@@ -1003,7 +1003,7 @@ g_date_time_get_day_of_week (GDateTime *datetime)
  * Since: 2.26
  */
 gint
-g_date_time_get_day_of_month (GDateTime *datetime)
+g_date_time_get_day_of_month (GDateTime *datetime) /* IN */
 {
   gint           day_of_year,
                  i;
@@ -1038,7 +1038,7 @@ g_date_time_get_day_of_month (GDateTime *datetime)
  * Since: 2.26
  */
 gint
-g_date_time_get_day_of_year (GDateTime *datetime)
+g_date_time_get_day_of_year (GDateTime *datetime) /* IN */
 {
   gint doy = 0;
 
@@ -1060,10 +1060,10 @@ g_date_time_get_day_of_year (GDateTime *datetime)
  * Since: 2.26
  */
 void
-g_date_time_get_dmy (GDateTime *datetime,
-                     gint      *day,
-                     gint      *month,
-                     gint      *year)
+g_date_time_get_dmy (GDateTime *datetime, /* IN */
+                     gint      *day,      /* OUT */
+                     gint      *month,    /* OUT */
+                     gint      *year)     /* OUT */
 {
   gint a, b, c, d, e, m;
 
@@ -1096,7 +1096,7 @@ g_date_time_get_dmy (GDateTime *datetime,
  * Since: 2.26
  */
 gint
-g_date_time_get_hour (GDateTime *datetime)
+g_date_time_get_hour (GDateTime *datetime) /* IN */
 {
   g_return_val_if_fail (datetime != NULL, 0);
   return (datetime->usec / USEC_PER_HOUR);
@@ -1117,12 +1117,12 @@ g_date_time_get_hour (GDateTime *datetime)
  * Since: 2.26
  */
 void
-g_date_time_get_julian (GDateTime *datetime,
-                        gint      *period,
-                        gint      *julian,
-                        gint      *hour,
-                        gint      *minute,
-                        gint      *second)
+g_date_time_get_julian (GDateTime *datetime, /* IN */
+                        gint      *period,   /* OUT */
+                        gint      *julian,   /* OUT */
+                        gint      *hour,     /* OUT */
+                        gint      *minute,   /* OUT */
+                        gint      *second)   /* OUT */
 {
   g_return_if_fail (datetime != NULL);
 
@@ -1154,7 +1154,7 @@ g_date_time_get_julian (GDateTime *datetime,
  * Since: 2.26
  */
 gint
-g_date_time_get_microsecond (GDateTime *datetime)
+g_date_time_get_microsecond (GDateTime *datetime) /* IN */
 {
   g_return_val_if_fail (datetime != NULL, 0);
   return (datetime->usec % USEC_PER_SECOND);
@@ -1172,7 +1172,7 @@ g_date_time_get_microsecond (GDateTime *datetime)
  * Since: 2.26
  */
 gint
-g_date_time_get_millisecond (GDateTime *datetime)
+g_date_time_get_millisecond (GDateTime *datetime) /* IN */
 {
   g_return_val_if_fail (datetime != NULL, 0);
   return (datetime->usec % USEC_PER_SECOND) / USEC_PER_MILLISECOND;
@@ -1190,7 +1190,7 @@ g_date_time_get_millisecond (GDateTime *datetime)
  * Since: 2.26
  */
 gint
-g_date_time_get_minute (GDateTime *datetime)
+g_date_time_get_minute (GDateTime *datetime) /* IN */
 {
   g_return_val_if_fail (datetime != NULL, 0);
   return (datetime->usec % USEC_PER_HOUR) / USEC_PER_MINUTE;
@@ -1208,7 +1208,7 @@ g_date_time_get_minute (GDateTime *datetime)
  * Since: 2.26
  */
 gint
-g_date_time_get_month (GDateTime *datetime)
+g_date_time_get_month (GDateTime *datetime) /* IN */
 {
   gint month;
 
@@ -1231,7 +1231,7 @@ g_date_time_get_month (GDateTime *datetime)
  * Since: 2.26
  */
 gint
-g_date_time_get_second (GDateTime *datetime)
+g_date_time_get_second (GDateTime *datetime) /* IN */
 {
   g_return_val_if_fail (datetime != NULL, 0);
   return (datetime->usec % USEC_PER_MINUTE) / USEC_PER_SECOND;
@@ -1248,8 +1248,8 @@ g_date_time_get_second (GDateTime *datetime)
  * Since: 2.26
  */
 void
-g_date_time_get_utc_offset (GDateTime *datetime,
-                            GTimeSpan *timespan)
+g_date_time_get_utc_offset (GDateTime *datetime, /* IN */
+                            GTimeSpan *timespan) /* OUT */
 {
   gint offset = 0;
 
@@ -1278,7 +1278,7 @@ g_date_time_get_utc_offset (GDateTime *datetime,
  * Since: 2.26
  */
 gint
-g_date_time_get_year (GDateTime *datetime)
+g_date_time_get_year (GDateTime *datetime) /* IN */
 {
   gint year;
 
@@ -1300,7 +1300,7 @@ g_date_time_get_year (GDateTime *datetime)
  * Since: 2.26
  */
 guint
-g_date_time_hash (gconstpointer datetime)
+g_date_time_hash (gconstpointer datetime) /* IN */
 {
   return (guint)(*((guint64*)datetime));
 }
@@ -1319,7 +1319,7 @@ g_date_time_hash (gconstpointer datetime)
  * Since: 2.26
  */
 gchar*
-g_date_time_format_for_display (GDateTime *datetime)
+g_date_time_format_for_display (GDateTime *datetime) /* IN */
 {
   GDateTime *today;
   gint       julian;
@@ -1355,7 +1355,7 @@ g_date_time_format_for_display (GDateTime *datetime)
  * Since: 2.26
  */
 gboolean
-g_date_time_is_leap_year (GDateTime *datetime)
+g_date_time_is_leap_year (GDateTime *datetime) /* IN */
 {
   gint year;
 
@@ -1377,7 +1377,7 @@ g_date_time_is_leap_year (GDateTime *datetime)
  * Since: 2.26
  */
 gboolean
-g_date_time_is_daylight_savings (GDateTime *datetime)
+g_date_time_is_daylight_savings (GDateTime *datetime) /* IN */
 {
   gint begin,
        end;
@@ -1420,9 +1420,9 @@ g_date_time_is_daylight_savings (GDateTime *datetime)
  * Since: 2.26
  */
 GDateTime*
-g_date_time_new_from_date (gint year,
-                           gint month,
-                           gint day)
+g_date_time_new_from_date (gint year,  /* IN */
+                           gint month, /* IN */
+                           gint day)   /* IN */
 {
   GDateTime *dt;
   gint       julian;
@@ -1450,7 +1450,7 @@ g_date_time_new_from_date (gint year,
  * Since: 2.26
  */
 GDateTime*
-g_date_time_new_from_time_t (time_t t)
+g_date_time_new_from_time_t (time_t t) /* IN */
 {
   struct tm tm;
 
@@ -1476,7 +1476,7 @@ g_date_time_new_from_time_t (time_t t)
  * Since: 2.26
  */
 GDateTime*
-g_date_time_new_from_timeval (GTimeVal *tv)
+g_date_time_new_from_timeval (GTimeVal *tv) /* IN */
 {
   GDateTime *datetime;
   gint       year;
@@ -1507,12 +1507,12 @@ g_date_time_new_from_timeval (GTimeVal *tv)
  * Since: 2.26
  */
 GDateTime*
-g_date_time_new_full (gint year,
-                      gint month,
-                      gint day,
-                      gint hour,
-                      gint minute,
-                      gint second)
+g_date_time_new_full (gint year,   /* IN */
+                      gint month,  /* IN */
+                      gint day,    /* IN */
+                      gint hour,   /* IN */
+                      gint minute, /* IN */
+                      gint second) /* IN */
 {
   GDateTime *dt;
   
@@ -1562,7 +1562,7 @@ g_date_time_now (void)
  * Since: 2.26
  */
 GDateTime*
-g_date_time_parse (const gchar *input)
+g_date_time_parse (const gchar *input) /* IN */
 {
   /* TODO: Implement parsing with locale support */
   g_warn_if_reached ();
@@ -1596,8 +1596,8 @@ g_date_time_parse (const gchar *input)
  * Since: 2.26
  */
 GDateTime*
-g_date_time_parse_with_format (const gchar *format,
-                               const gchar *input)
+g_date_time_parse_with_format (const gchar *format, /* IN */
+                               const gchar *input)  /* IN */
 {
   gint      year    = 1,
             month   = 1,
@@ -1810,8 +1810,8 @@ bad_value:
  * Since: 2.26
  */
 gchar*
-g_date_time_printf (GDateTime   *datetime,
-                    const gchar *format)
+g_date_time_printf (GDateTime   *datetime, /* IN */
+                    const gchar *format)   /* IN */
 {
   GString     *outstr;
   const gchar *tmp;
@@ -2019,7 +2019,7 @@ bad_format:
  * Since: 2.26
  */
 GDateTime*
-g_date_time_ref (GDateTime *datetime)
+g_date_time_ref (GDateTime *datetime) /* IN */
 {
   g_return_val_if_fail (datetime != NULL, NULL);
   g_return_val_if_fail (datetime->ref_count > 0, NULL);
@@ -2038,7 +2038,7 @@ g_date_time_ref (GDateTime *datetime)
  * Since: 2.26
  */
 GDateTime*
-g_date_time_to_local (GDateTime *datetime)
+g_date_time_to_local (GDateTime *datetime) /* IN */
 {
   GDateTime *dt;
   gint       offset,
@@ -2077,7 +2077,7 @@ g_date_time_to_local (GDateTime *datetime)
  * Since: 2.26
  */
 time_t
-g_date_time_to_time_t (GDateTime *datetime)
+g_date_time_to_time_t (GDateTime *datetime) /* IN */
 {
   struct tm tm;
   gint      year,
@@ -2117,8 +2117,8 @@ g_date_time_to_time_t (GDateTime *datetime)
  * Since: 2.26
  */
 void
-g_date_time_to_timeval (GDateTime *datetime,
-                        GTimeVal  *tv)
+g_date_time_to_timeval (GDateTime *datetime, /* IN */
+                        GTimeVal  *tv)       /* OUT */
 {
   g_return_if_fail (datetime != NULL);
 
@@ -2145,7 +2145,7 @@ g_date_time_to_timeval (GDateTime *datetime,
  * Since: 2.26
  */
 GDateTime*
-g_date_time_to_utc (GDateTime *datetime)
+g_date_time_to_utc (GDateTime *datetime) /* IN */
 {
   GDateTime *dt;
   GTimeSpan  ts;
@@ -2191,7 +2191,7 @@ g_date_time_today (void)
  * Since: 2.26
  */
 void
-g_date_time_unref (GDateTime *datetime)
+g_date_time_unref (GDateTime *datetime) /* IN */
 {
   g_return_if_fail (datetime != NULL);
   g_return_if_fail (datetime->ref_count > 0);
