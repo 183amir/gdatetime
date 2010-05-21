@@ -899,9 +899,9 @@ g_date_time_date (GDateTime *datetime) /* IN */
  * @end: a #GDateTime
  * @timespan: a #GTimeSpan
  *
- * Calculates the known difference in time between @begin and @end.  Since the
- * exact precision cannot always be known due to incomplete historic
- * information, a best attempt is made to calculate the difference.
+ * Calculates the known difference in time between @begin and @end.  Exact
+ * precision cannot always be known due to incomplete historic information.
+ * Leap seconds are not taken into account.
  *
  * Since: 2.26
  */
@@ -919,7 +919,7 @@ g_date_time_diff (GDateTime *begin,    /* IN */
 
   if (begin->period != 0 || end->period != 0)
     {
-      g_warning ("%s only supports current julian epoch", G_STRFUNC);
+      g_critical ("%s() only supports the current julian epoch", G_STRFUNC);
       *timespan = 0;
       return;
     }
