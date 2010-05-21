@@ -410,6 +410,19 @@ test_GDateTime_ref (void)
 }
 
 static void
+test_GDateTime_add (void)
+{
+  GDateTime *dt, *dt2;
+  GTimeSpan ts = G_TIME_SPAN_HOUR * 3;
+  GTimeSpan ts2 = 0;
+
+  dt = g_date_time_new_from_date (2010, 5, 20);
+  dt2 = g_date_time_add (dt, ts);
+  g_date_time_diff(dt, dt2, &ts2);
+  g_assert_cmpint(ts, ==, ts2);
+}
+
+static void
 test_GDateTime_add_years (void)
 {
   GDateTime *dt, *dt2;
@@ -1229,6 +1242,8 @@ main (gint   argc,
 
   /* GDateTime Tests */
 
+  g_test_add_func ("/GDateTime/add",
+                   test_GDateTime_add);
   g_test_add_func ("/GDateTime/add_days",
                    test_GDateTime_add_days);
   g_test_add_func ("/GDateTime/add_full",

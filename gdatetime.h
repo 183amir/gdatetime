@@ -35,7 +35,7 @@ typedef struct _GDateTime GDateTime;
 typedef gint64            GTimeSpan;
 
 GDateTime *   g_date_time_add                    (GDateTime      *datetime,
-                                                  GTimeSpan      *timespan);
+                                                  GTimeSpan       timespan);
 GDateTime *   g_date_time_add_days               (GDateTime      *datetime,
                                                   gint            days);
 GDateTime *   g_date_time_add_full               (GDateTime      *datetime,

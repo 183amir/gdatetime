@@ -482,15 +482,14 @@ g_date_time_get_week_number (GDateTime *datetime,
  */
 GDateTime*
 g_date_time_add (GDateTime *datetime, /* IN */
-                 GTimeSpan *timespan) /* IN */
+                 GTimeSpan  timespan) /* IN */
 {
   GDateTime *dt;
 
   g_return_val_if_fail (datetime != NULL, NULL);
-  g_return_val_if_fail (timespan != NULL, NULL);
 
   dt = g_date_time_copy (datetime);
-  ADD_USEC (dt, *timespan);
+  ADD_USEC (dt, timespan);
 
   return dt;
 }
@@ -2154,7 +2153,7 @@ g_date_time_to_utc (GDateTime *datetime) /* IN */
 
   g_date_time_get_utc_offset (datetime, &ts);
   ts = -ts;
-  dt = g_date_time_add (datetime, &ts);
+  dt = g_date_time_add (datetime, ts);
   dt->tz = NULL;
 
   return dt;
