@@ -1302,7 +1302,20 @@ g_date_time_get_year (GDateTime *datetime) /* IN */
 guint
 g_date_time_hash (gconstpointer datetime) /* IN */
 {
-  return (guint)(*((guint64*)datetime));
+  GDateTime *dt = (GDateTime *)datetime;
+  guint julian = dt->julian;
+  guint usec = dt->usec & G_MAXUINT;
+  guint tz = 0;
+
+  if (dt->tz) {
+    if (g_date_time_is_daylight_savings(dt)) {
+      tz = (dt->tz->year << 16) | dt->tz->dst_gmtoff;
+    } else {
+      tz = (dt->tz->year << 16) | dt->tz->std_gmtoff;
+    }
+  }
+
+  return (guint)(julian ^ usec ^ tz);
 }
 
 /**
